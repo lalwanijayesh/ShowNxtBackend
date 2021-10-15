@@ -11,10 +11,16 @@ const Query = `
     }
 `;
 
+const Mutation = `
+    type Mutation {
+        _empty: String
+    }
+`;
+
 const resolvers = {} // any additional resolvers we might need that are not type-specific
 
 const rootSchema = {
-    typeDefs: [ Query, User ],
+    typeDefs: [ Query, Mutation, User ],
     resolvers: merge(resolvers, userResolvers)
 };
 

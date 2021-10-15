@@ -1,5 +1,5 @@
-const { getUserById, getUserByEmail, getUsers } = require('../../api/user.api');
-const { User } = require('./user.types');
+const {getUserById, getUserByEmail, getUsers, createUser} = require('../../api/user.api');
+const {User} = require('./user.types');
 
 const userResolvers = {
     Query: {
@@ -14,6 +14,11 @@ const userResolvers = {
             return getUserByEmail(args.email).then();
         }
     },
+    Mutation: {
+        createUser: (parent, args, context, info) => {
+            return createUser(email = args.email, type = args.type)
+        }
+    }
 }
 
-module.exports = { userResolvers };
+module.exports = {userResolvers};
