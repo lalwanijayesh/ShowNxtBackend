@@ -32,8 +32,22 @@ const getUserByEmail = async (email) => {
     return res.rows[0];
 }
 
+/**
+ * Creates a new user in the database.
+ * 
+ * @param {String} email the email of the user we are creating
+ * @param {UserType} type the type of the user from the UserType enum
+ * @returns the user if the creation is successful, otherwise throws an error
+ */
+const createUser = async (email, type) => {
+    await pool.query("INSERT INTO users (email, type) VALUES ($1, $2)", [email, type]);
+    
+    return await getUserByEmail(email);
+}
+
 module.exports = {
     getUsers,
     getUserById,
-    getUserByEmail
+    getUserByEmail,
+    createUser
 }
