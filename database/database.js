@@ -9,11 +9,4 @@ const pool = new Pool({
     port: process.env.DB_PORT
 })
 
-const getAppInfo = async () => {
-    var res = await pool.query("SELECT param, value FROM app_config WHERE param = 'name' OR param = 'version'");
-    return res.rows;
-}
-
-module.exports = {
-    getAppInfo
-}
+module.exports = { pool };

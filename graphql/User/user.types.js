@@ -9,7 +9,7 @@ const User = gql`
         COACH
     }
 
-    # Extends the top-level root Query object with specific queries for this object
+    # Extends the top-level root Query object with specific queries
     extend type Query {
         users: [User!]
         user(id: ID!): User

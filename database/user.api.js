@@ -1,24 +1,32 @@
-require('dotenv').config()
-const Pool = require('pg').Pool
+const { pool } = require('./database');
 
-const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT
-})
-
+/**
+ * Gets all users.
+ * 
+ * @returns users
+ */
 const getUsers = async () => {
     var res = await pool.query("SELECT * FROM users ORDER BY id ASC");
     return res.rows;
 }
 
+/**
+ * Gets the user with the supplied id.
+ * 
+ * @param {ID} id the unique user identifier
+ * @returns the user with the supplied id or null if none found
+ */
 const getUserById = async (id) => {
     var res = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
     return res.rows[0];
 }
 
+/**
+ * Gets the user with a specific email.
+ * 
+ * @param {String} email the user's email
+ * @returns the user with the supplied email or null if none found
+ */
 const getUserByEmail = async (email) => {
     var res = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
     return res.rows[0];
