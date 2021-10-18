@@ -1,25 +1,13 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
-const api = require('./api')
-const port = 3000
+const { ApolloServer } = require('apollo-server');
 
-app.use(bodyParser.json())
-app.use(
-    bodyParser.urlencoded({
-        extended: true,
-    })
-)
+const { rootSchema } = require('./graphql/schema');
 
-app.get('/', (request, response) => {
-    response.json({info: 'Node.js, Express, and Postgres API'})
-})
+const CONFIG = {
+    port: process.env.APP_PORT || 3000,
+};
 
-app.get('/appinfo', api.getAppInfo)
-app.get('/users', api.getUsers)
-app.get('/users/:id', api.getUserById)
+const server = new ApolloServer(rootSchema);
 
-
-app.listen(port, () => {
-    console.log(`App running on port ${port}.`)
-})
+server.listen(CONFIG).then(({ url }) => {
+    console.log(`🚀  Server ready at ${url}`);
+});
