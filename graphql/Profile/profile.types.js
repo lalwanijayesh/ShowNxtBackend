@@ -1,24 +1,24 @@
 const { gql } = require("apollo-server");
 
 /**
- * Defines the application type definition.
+ * Defines the Profile type definition.
  */
-const Application = gql`
+const Profile = gql`
   # Extends the top-level root Query object with specific queries
   extend type Query {
-    coaches: [Application!]
-    coach(id: ID!): Application
+    coaches: [Profile!]
+    coach(id: ID!): Profile
   }
 
   extend type Mutation {
-    createApplication(
+    createProfile(
       userID: User!
       sportID: Sport!
       positionID: Position!
-    ): Application
+    ): Profile
   }
 
-  type Application {
+  type Profile {
     id: ID!
     userID: User!
     sportID: Sport!
@@ -26,4 +26,4 @@ const Application = gql`
   }
 `;
 
-module.exports = { Application };
+module.exports = { Profile };
