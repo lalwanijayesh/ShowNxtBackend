@@ -26,7 +26,7 @@ const getCoachById = async (id) => {
 /**
  * Creates a new coach in the database.
  *
- * @param {Number} id the id of the user for the coach we are creating
+ * @param {Number} id the unique id of the user for the coach we are creating
  * @param {School} school the school of the coach we are creating
  * @param {Sport} sport the sport overseen by the coach we are creating
  * @param {String} firstName the first name of the coach we are creating
