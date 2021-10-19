@@ -41,3 +41,9 @@ const createCoach = async (id, school, sport, firstName, lastName) => {
 
   return await getCoachById(id);
 };
+
+module.exports = {
+  getCoaches,
+  getCoachById, 
+  createCoach,
+}
