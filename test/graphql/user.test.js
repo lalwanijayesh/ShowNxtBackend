@@ -1,12 +1,13 @@
-const { describe, beforeAll, test } = require('jest');
 const { gql, ApolloServer } = require('apollo-server');
 
 const { rootSchema } = require('../../graphql/schema');
 
 describe('tests all the queries related to user', () => {
+    let server;
+
     beforeAll(() => {
         // TODO: set up the database and the server using the factory, I think that would be better
-        const server = new ApolloServer({ rootSchema });
+        server = new ApolloServer(rootSchema);
     });
 
     const TEST_CASES = [
@@ -21,10 +22,14 @@ describe('tests all the queries related to user', () => {
                     }
                 }
             `,
-            expected: [
-                { id: '1', email: 'george@example.com', type: 'ATHLETE' },
-                { id: '2', email: 'steven@example.com', type: 'COACH' },
-            ],
+            expected: {
+                users: [
+                    { id: '1', email: 'jerry@example.com', type: 'ATHLETE' },
+                    { id: '2', email: 'george@example.com', type: 'COACH' },
+                    { id: '3', email: 'alex@example.com', type: 'COACH' },
+                    { id: '5', email: 'jay@example.com', type: 'COACH' },
+                ],
+            },
             variables: {},
         },
         {
@@ -38,22 +43,22 @@ describe('tests all the queries related to user', () => {
                     }
                 }
             `,
-            expected: [
-                { id: '1', email: 'george@example.com', type: 'ATHLETE' },
-            ],
+            expected: {
+                user: { id: '1', email: 'jerry@example.com', type: 'ATHLETE' },
+            },
             variables: { userId: 1 },
         },
     ];
 
     test.each(TEST_CASES)(
         'checks the response from the $name query',
-        ({ name, query, expected, variables }) => {
-            const res = await.server.executeOperation({
+        async ({ name, query, expected, variables }) => {
+            const res = await server.executeOperation({
                 query: query,
                 variables: variables,
             });
 
-            expect(res).toBe(expected);
+            expect(res.data).toEqual(expected);
         }
     );
 });
