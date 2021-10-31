@@ -1,4 +1,4 @@
-const { pool } = require('./database');
+const { db } = require('./database');
 
 /**
  * Gets all users.
@@ -6,7 +6,7 @@ const { pool } = require('./database');
  * @returns users
  */
 const getUsers = async () => {
-    var res = await pool.query("SELECT * FROM users ORDER BY id ASC");
+    var res = await db.query("SELECT * FROM users ORDER BY id ASC");
     return res.rows;
 }
 
@@ -17,7 +17,7 @@ const getUsers = async () => {
  * @returns the user with the supplied id or null if none found
  */
 const getUserById = async (id) => {
-    var res = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
+    var res = await db.query("SELECT * FROM users WHERE id = $1", [id]);
     return res.rows[0];
 }
 
@@ -28,7 +28,7 @@ const getUserById = async (id) => {
  * @returns the user with the supplied email or null if none found
  */
 const getUserByEmail = async (email) => {
-    var res = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+    var res = await db.query("SELECT * FROM users WHERE email = $1", [email]);
     return res.rows[0];
 }
 
@@ -40,8 +40,7 @@ const getUserByEmail = async (email) => {
  * @returns the user if the creation is successful, otherwise throws an error
  */
 const createUser = async (email, type) => {
-    await pool.query("INSERT INTO users (email, type) VALUES ($1, $2)", [email, type]);
-    
+    await db.query("INSERT INTO users (email, type) VALUES ($1, $2)", [email, type]);
     return await getUserByEmail(email);
 }
 

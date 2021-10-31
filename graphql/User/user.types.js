@@ -15,10 +15,6 @@ const User = gql`
         user(id: ID!): User
         userByEmail(email: String!): User
     }
-    
-    extend type Mutation {
-        createUser(email: String!, type: UserType!): User
-    }
 
     extend type Mutation {
         createUser(email: String!, type: UserType!): User

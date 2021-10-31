@@ -1,12 +1,15 @@
 const { gql, ApolloServer } = require('apollo-server');
-
 const { rootSchema } = require('../../graphql/schema');
+const { db } = require('../../database/database');
 
 describe('tests all the queries related to user', () => {
     let server;
 
     beforeAll(() => {
-        // TODO: set up the database and the server using the factory, I think that would be better
+        // insert setup scripts here to test with mock database
+        db.query("INSERT INTO users " +
+            "VALUES ('1', 'jerry@example.com', 'ATHLETE'), " +
+            "('2', 'thomas@example.com', 'COACH')")
         server = new ApolloServer(rootSchema);
     });
 
@@ -25,9 +28,7 @@ describe('tests all the queries related to user', () => {
             expected: {
                 users: [
                     { id: '1', email: 'jerry@example.com', type: 'ATHLETE' },
-                    { id: '2', email: 'george@example.com', type: 'COACH' },
-                    { id: '3', email: 'alex@example.com', type: 'COACH' },
-                    { id: '5', email: 'jay@example.com', type: 'COACH' },
+                    { id: '2', email: 'thomas@example.com', type: 'COACH' },
                 ],
             },
             variables: {},
@@ -57,7 +58,7 @@ describe('tests all the queries related to user', () => {
                 query: query,
                 variables: variables,
             });
-
+            
             expect(res.data).toEqual(expected);
         }
     );
