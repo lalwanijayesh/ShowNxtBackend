@@ -1,218 +1,245 @@
-
-CREATE TABLE appUser (
-	userId INT PRIMARY KEY,  
-  	userType VARCHAR(64) NOT NULL,
-  	email VARCHAR(64),
-	
-	CONSTRAINT chk_userType 
-		CHECK (userType IN ('athlete', 'coach'))
+CREATE TYPE user_type AS ENUM('COACH', 'ATHLETE');
+CREATE TYPE gender_type AS ENUM('MALE', 'FEMALE', 'NONBINARY', 'OTHER');
+CREATE TYPE division_type AS ENUM('1','2','3'); 
+CREATE TABLE users (
+	id SERIAL PRIMARY KEY, 
+	email varchar(100) UNIQUE NOT NULL, 
+	type user_type NOT NULL
 );
 
 CREATE TABLE athlete (
-	userId INT PRIMARY KEY,  
-  	firstName VARCHAR(64) NOT NULL, 
-  	lastName VARCHAR(64) NOT NULL,
-    gender VARCHAR (64) NOT NULL,
-    gpa DEC(3, 2) NOT NULL,
-    sat INT NOT NULL,
-    act INT NOT NULL,
-    athelet_height INT NOT NULL,
-    athlete_weight INT NOT NULL,
-	
-	CONSTRAINT chk_gender 
-		CHECK (gender IN('male', 'female', 'nonbinary', 'other')),
+	user_id INT PRIMARY KEY,  
+  	first_name VARCHAR(64) NOT NULL, 
+  	last_name VARCHAR(64) NOT NULL,
+	type gender_type NOT NULL,
+    gpa DEC(3, 2),
+    sat INT ,
+    act INT,
+    athlete_height INT,
+    athlete_weight INT,
 	
 	CONSTRAINT athlete_fk_user 
-    	FOREIGN KEY(userID)
-		REFERENCES appUser(userID)
+    	FOREIGN KEY ( user_id )
+		REFERENCES app_user ( user_id )
 		ON DELETE RESTRICT
 );
 
 CREATE TABLE school(
-	schoolID INT PRIMARY KEY,  
-  	schoolName VARCHAR(64) NOT NULL, 
-  	schoolLocation VARCHAR(64) NOT NULL,
-    division INT NOT NULL,
-	
-	CONSTRAINT chk_division 
-		CHECK (division IN(1, 2, 3))
+	school_id INT PRIMARY KEY,  
+  	school_name VARCHAR(64) NOT NULL, 
+  	school_location VARCHAR(64) NOT NULL,
+	type division_type NOT NULL,
 );
 
 CREATE TABLE sport(
-	sportID INT PRIMARY KEY,
-  	sportName VARCHAR(64) NOT NULL, 
-    gender VARCHAR (64) NOT NULL,
-	
-	CONSTRAINT chk_gender
-		CHECK (gender IN('male', 'female'))
+	sport_id INT PRIMARY KEY,
+  	sport_name VARCHAR(64) NOT NULL, 
+	type gender_type NOT NULL
 );
 
 CREATE TABLE coach(
-	userID INT PRIMARY KEY,
-	schoolID INT NOT NULL,
-	sportID INT NOT NULL,
-  	firstName VARCHAR(64), 
-  	lastName VARCHAR(64),
+	user_id INT PRIMARY KEY,
+	school_id INT NOT NULL,
+	sport_id INT NOT NULL,
+  	first_name VARCHAR(64), 
+  	last_name VARCHAR(64),
 	
 	
 	CONSTRAINT coach_fk_school 
-    	FOREIGN KEY(schoolID)
-		REFERENCES school(schoolID)
+    	FOREIGN KEY(school_id)
+		REFERENCES school(school_id)
 		ON DELETE RESTRICT,
 	CONSTRAINT coach_fk_sport
-   		FOREIGN KEY(sportID)
-		REFERENCES sport(sportID)
+   		FOREIGN KEY(sport_id)
+		REFERENCES sport(sport_id)
 		ON DELETE RESTRICT
 );
 
-CREATE TABLE positionMaster (
-	positionID INT PRIMARY KEY,
-	sportID INT NOT NULL,
-	positionName VARCHAR(64) NOT NULL,
+CREATE TABLE position_master (
+	position_id INT PRIMARY KEY,
+	sport_id INT NOT NULL,
+	position_name VARCHAR(64) NOT NULL,
 	
 	CONSTRAINT position_fk_sport
-		FOREIGN KEY (sportID)
-		REFERENCES sport(sportID)
+		FOREIGN KEY (sport_id)
+		REFERENCES sport(sport_id)
+		ON DELETE RESTRICT
+);
+
+
+CREATE TABLE measurable_master (
+	measurable_id INT PRIMARY KEY,
+	sport_id INT NOT NULL,
+	position_id INT NOT NULL,
+	measureable_name VARCHAR(64) NOT NULL,
+	format VARCHAR(64) NOT NULL,
+	
+	CONSTRAINT measurable_fk_sport
+		FOREIGN KEY (sport_id)
+		REFERENCES sport(sport_id)
+		ON DELETE RESTRICT,
+	CONSTRAINT measurable_fk_position
+		FOREIGN KEY (sport_id)
+		REFERENCES position_master(position_id)
 		ON DELETE RESTRICT
 );
 
 CREATE TABLE profile (
-	profileID INT PRIMARY KEY,
-	userID INT NOT NULL,
-	sportID INT NOT NULL,
-	positionID INT NOT NULL,
+	profile_id INT PRIMARY KEY,
+	user_id INT NOT NULL,
+	sport_id INT NOT NULL,
+	position_id INT NOT NULL,
 	
 	CONSTRAINT profile_fk_user
-		FOREIGN KEY (userID)
-		REFERENCES appUser(userID)
+		FOREIGN KEY (user_id)
+		REFERENCES app_user(user_id)
 		ON DELETE RESTRICT,
 	CONSTRAINT profile_fk_sport
-		FOREIGN KEY (sportID)
-		REFERENCES sport(sportID)
+		FOREIGN KEY (sport_id)
+		REFERENCES sport(sport_id)
 		ON DELETE RESTRICT,
 	CONSTRAINT profile_fk_position
-		FOREIGN KEY (positionID)
-		REFERENCES positionMaster(positionID)
+		FOREIGN KEY (position_id)
+		REFERENCES position_master(position_id)
 		ON DELETE RESTRICT
 );
 
+CREATE TABLE profile_measurable (
+	profile_measurable_id INT PRIMARY KEY,
+	profile_id INT NOT NULL,
+	measurable_id INT NOT NULL,
+	value VARCHAR(64) NOT NULL,
+	format VARCHAR(64) NOT NULL,
+	
+	CONSTRAINT profile_measureable_fk_profile
+		FOREIGN KEY (profile_id)
+		REFERENCES profile(profile_id)
+		ON DELETE RESTRICT,
+	CONSTRAINT profile_measureable_fk_measurable
+		FOREIGN KEY (measurable_id)
+		REFERENCES measurable_master(measurable_id)
+		ON DELETE RESTRICT
+);
+	
+CREATE TABLE profile_videos (
+	profile_video_id INT PRIMARY KEY,
+	video VARCHAR(64) NOT NULL,
+	description VARCHAR(64),
+	date_of_upload DATETIME NOT NULL,
+	CONSTRAINT profile_measureable_fk_profile
+		FOREIGN KEY (profile_id)
+		REFERENCES profile(profile_id)
+		ON DELETE RESTRICT
+)
+
+CREATE TABLE profile_calendar (
+	profile_calendar_id INT PRIMARY KEY,
+	date_time_of_game SMALLDATETIME NOT NULL,
+	player_team VARCHAR(64) NOT NULL,
+	against_team VARCHAR(64) NOT NULL, 
+	description VARCHAR(64) NOT NULL
+	CONSTRAINT profile_measureable_fk_profile
+		FOREIGN KEY (profile_id)
+		REFERENCES profile(profile_id)
+		ON DELETE RESTRICT
+)
+
+
+CREATE TABLE coachOpening (
+	opening_id INT PRIMARY KEY,
+	coach_id INT NOT NULL,
+	sport_id INT NOT NULL,
+	position_id INT NOT NULL,
+	numbOfOpening INT NOT NULL,
+	
+	CONSTRAINT opening_fk_coach
+		FOREIGN KEY (coach_id)
+		REFERENCES coach(user_id)
+		ON DELETE RESTRICT,
+	CONSTRAINT opening_fk_sport
+		FOREIGN KEY (sport_id)
+		REFERENCES sport(sport_id)
+		ON DELETE RESTRICT,
+	CONSTRAINT opening_fk_position
+		FOREIGN KEY (position_id)
+		REFERENCES position_master(position_id)
+		ON DELETE RESTRICT
+);
+
+CREATE TABLE sportOffering (
+	offering_id INT PRIMARY KEY,
+	school_id INT NOT NULL,
+	sport_id INT NOT NULL,
+	
+	CONSTRAINT offering_fk_school
+		FOREIGN KEY (school_id)
+		REFERENCES school(school_id)
+		ON DELETE RESTRICT,
+	CONSTRAINT offering_fk_sport_id
+		FOREIGN KEY (sport_id)
+		REFERENCES sport(sport_id)
+		ON DELETE RESTRICT
+);
+
+CREATE TABLE application (
+	application_id INT PRIMARY KEY,
+	profile_id INT NOT NULL,
+	school_id INT NOT NULL,
+	sport_id INT NOT NULL,
+	position_id INT NOT NULL,
+	
+	CONSTRAINT application_fk_profile
+		FOREIGN KEY (profile_id)
+		REFERENCES profile(profile_id)
+		ON DELETE RESTRICT,
+	CONSTRAINT application_fk_school
+		FOREIGN KEY (school_id)
+		REFERENCES school(school_id)
+		ON DELETE RESTRICT,
+	CONSTRAINT application_fk_sport
+		FOREIGN KEY (sport_id)
+		REFERENCES sport(sport_id)
+		ON DELETE RESTRICT,
+	CONSTRAINT application_fk_position
+		FOREIGN KEY (position_id)
+		REFERENCES position_master(position_id)
+		ON DELETE RESTRICT
+);
+
+CREATE TABLE evalutation (
+	evalutation_id INT PRIMARY KEY,
+	coach_id INT NOT NULL, 
+	status ENUM('dismissed', 'accepted', 'unevaluated')
+	CONSTRAINT coach_fk_coach 
+		FOREIGN KEY (coach_id)
+		REFERENCES coach(coach_id)
+		ON DELETE RESTRICT
+)
+
 CREATE TABLE chat (
-	chatID INT PRIMARY KEY,
+	chat_id INT PRIMARY KEY,
 	participant1 INT NOT NULL,
 	participant2 INT NOT NULL,
 	
 	CONSTRAINT chat_fk_user1
 		FOREIGN KEY (participant1)
-		REFERENCES appUser(userID)
+		REFERENCES app_user(user_id)
 		ON DELETE RESTRICT,
 	CONSTRAINT chat_fk_user2
 		FOREIGN KEY (participant2)
-		REFERENCES appUser(userID)
+		REFERENCES app_user(user_id)
 		ON DELETE RESTRICT
 );
 
-CREATE TABLE chatMessage (
-	messageID INT PRIMARY KEY,
-	chatID INT NOT NULL,
-	chatMessage VARCHAR NOT NULL,
-	messageTime DATE NOT NULL,
+CREATE TABLE chat_message (
+	message_id INT PRIMARY KEY,
+	chat_id INT NOT NULL,
+	chat_message VARCHAR NOT NULL,
+	message_time DATE NOT NULL,
 	
 	CONSTRAINT message_fk_chat
-		FOREIGN KEY (chatID)
-		REFERENCES chat(chatID)
+		FOREIGN KEY (chat_id)
+		REFERENCES chat(chat_id)
 		ON DELETE RESTRICT
 );
 
-
-CREATE TABLE measurableMaster (
-	measurableID INT PRIMARY KEY,
-	sportID INT NOT NULL,
-	positionID INT NOT NULL,
-	measureableName VARCHAR(64) NOT NULL,
-	format VARCHAR(64) NOT NULL,
-	
-	CONSTRAINT measurable_fk_sport
-		FOREIGN KEY (sportID)
-		REFERENCES sport(sportID)
-		ON DELETE RESTRICT,
-	CONSTRAINT measurable_fk_position
-		FOREIGN KEY (sportID)
-		REFERENCES positionMaster(positionID)
-		ON DELETE RESTRICT
-);
-
-CREATE TABLE profileMeasurable (
-	profileMeasurableID INT PRIMARY KEY,
-	profileID INT NOT NULL,
-	measurableID INT NOT NULL,
-	
-	CONSTRAINT profileMeasureable_fk_profile
-		FOREIGN KEY (profileID)
-		REFERENCES profile(profileID)
-		ON DELETE RESTRICT,
-	CONSTRAINT profileMeasureable_fk_measurable
-		FOREIGN KEY (measurableID)
-		REFERENCES measurableMaster(measurableID)
-		ON DELETE RESTRICT
-	);
-	
-CREATE TABLE coachOpening (
-	openingID INT PRIMARY KEY,
-	coachID INT NOT NULL,
-	sportID INT NOT NULL,
-	positionID INT NOT NULL,
-	numbOfOpening INT NOT NULL,
-	
-	CONSTRAINT opening_fk_coach
-		FOREIGN KEY (coachID)
-		REFERENCES coach(userID)
-		ON DELETE RESTRICT,
-	CONSTRAINT opening_fk_sport
-		FOREIGN KEY (sportID)
-		REFERENCES sport(sportID)
-		ON DELETE RESTRICT,
-	CONSTRAINT opening_fk_position
-		FOREIGN KEY (positionID)
-		REFERENCES positionMaster(positionID)
-		ON DELETE RESTRICT
-);
-
-CREATE TABLE sportOffering (
-	offeringID INT PRIMARY KEY,
-	schoolID INT NOT NULL,
-	sportID INT NOT NULL,
-	
-	CONSTRAINT offering_fk_school
-		FOREIGN KEY (schoolID)
-		REFERENCES school(schoolID)
-		ON DELETE RESTRICT,
-	CONSTRAINT offering_fk_sportID
-		FOREIGN KEY (sportID)
-		REFERENCES sport(sportID)
-		ON DELETE RESTRICT
-);
-
-CREATE TABLE application (
-	applicationID INT PRIMARY KEY,
-	profileID INT NOT NULL,
-	schoolID INT NOT NULL,
-	sportID INT NOT NULL,
-	positionID INT NOT NULL,
-	
-	CONSTRAINT application_fk_profile
-		FOREIGN KEY (profileID)
-		REFERENCES profile(profileID)
-		ON DELETE RESTRICT,
-	CONSTRAINT application_fk_school
-		FOREIGN KEY (schoolID)
-		REFERENCES school(schoolID)
-		ON DELETE RESTRICT,
-	CONSTRAINT application_fk_sport
-		FOREIGN KEY (sportID)
-		REFERENCES sport(sportID)
-		ON DELETE RESTRICT,
-	CONSTRAINT application_fk_position
-		FOREIGN KEY (positionID)
-		REFERENCES positionMaster(positionID)
-		ON DELETE RESTRICT
-);
