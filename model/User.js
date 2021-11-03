@@ -1,42 +1,53 @@
+const { pool } = require("./database");
+
 class User {
-    constructor(userID, username, email) {
-        this.userID = userID;
-        this.username = username;
-        this.picture = "";
-        this.email = email;
-        this.comFlow = new Map();
+  constructor(userID = null, email = null) {
+    if (userID) {
+      let res = await pool.query("SELECT * FROM users WHERE id = $1", [userID]);
+    } else if (email) {
+      let res = await pool.query("SELECT * FROM users WHERE email = $1", [
+        email,
+      ]);
+    } else {
+      // maybe throw an error or something idk, above my pay grade
     }
 
-    addCom(key, message) {
-        this.comFlow.set(key, message);
-    }
+    this.userID = userID;
+    this.username = username;
+    this.picture = "";
+    this.email = email;
+    this.comFlow = new Map();
+  }
 
-    deleteCom(key) {
-        this.comFlow.delete(key);
-    }
+  addCom(key, message) {
+    this.comFlow.set(key, message);
+  }
 
-    getCom() {
-        return this.comFlow;
-    }
+  deleteCom(key) {
+    this.comFlow.delete(key);
+  }
 
-    getEmail() {
-        return this.email;
-    }
+  getCom() {
+    return this.comFlow;
+  }
 
-    getPic() {
-        return this.picture;
-    }
+  getEmail() {
+    return this.email;
+  }
 
-    changeProfilePicture(picture) {
-        this.picture = picture;
-    }
+  getPic() {
+    return this.picture;
+  }
+
+  changeProfilePicture(picture) {
+    this.picture = picture;
+  }
 }
 
+const createUser = (email) => {
+  // create the user in the database
+  await pool.query("INSERT INTO users (email) VALUES ($1)", [email]);
 
-
-
-
-
-
-
-
+  // Return a User object
+  return new User((email = email));
+};
