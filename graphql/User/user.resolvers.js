@@ -1,4 +1,4 @@
-const { getUserById, getUserByEmail, getUsers, createUser } = require('../../database/user.api');
+const { getUserById, getUserByEmail, getUsers, createUser } = require('../../dao/user.dao');
 
 const userResolvers = {
     Query: {

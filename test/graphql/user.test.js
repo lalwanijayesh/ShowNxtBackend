@@ -1,6 +1,6 @@
 const { gql, ApolloServer } = require('apollo-server');
 const { rootSchema } = require('../../graphql/schema');
-const { db } = require('../../database/database');
+const { db } = require('../../dao/database');
 
 describe('tests all the queries related to user', () => {
     let server;
