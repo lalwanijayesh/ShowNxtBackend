@@ -95,7 +95,7 @@ class Athlete {
     this._weight = value;
   }
 
-  static async createAthlete(userId, firstName, lastName, gender) {
+  static async createAthlete(userId, firstName, lastName, gender, gpa, sat, act, height, weight) {
     const response = await athleteDao
       .createAthlete(
         userId,
@@ -107,13 +107,12 @@ class Athlete {
         act,
         height,
         weight
-      )
-      .then();
+      );
     // TODO create mapper to transform db responses to model object
     return new Athlete(
-      response.userid,
-      response.firstname,
-      response.lastname,
+      response.user_id,
+      response.first_name,
+      response.last_name,
       response.gender,
       response.gpa,
       response.sat,

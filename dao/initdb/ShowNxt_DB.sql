@@ -8,9 +8,9 @@ CREATE TABLE users (
 );
 
 CREATE TABLE athlete (
-	userId INT PRIMARY KEY,
-  	firstName VARCHAR(64) NOT NULL,
-  	lastName VARCHAR(64) NOT NULL,
+	user_id INT PRIMARY KEY,
+  	first_name VARCHAR(64) NOT NULL,
+  	last_name VARCHAR(64) NOT NULL,
 	gender genderType NOT NULL,
     gpa DEC(3, 2),
     sat INT ,
@@ -19,7 +19,7 @@ CREATE TABLE athlete (
     weight INT,
 	
 	CONSTRAINT athlete_fk_user 
-    	FOREIGN KEY ( userId )
+    	FOREIGN KEY ( user_id )
 		REFERENCES users ( id )
 		ON DELETE RESTRICT
 );
