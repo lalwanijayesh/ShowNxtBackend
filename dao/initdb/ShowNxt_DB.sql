@@ -1,17 +1,18 @@
-CREATE TYPE userType AS ENUM('COACH', 'ATHLETE');
-CREATE TYPE genderType AS ENUM('MALE', 'FEMALE', 'NONBINARY', 'OTHER');
+CREATE TYPE user_type AS ENUM('COACH', 'ATHLETE');
+CREATE TYPE gender_type AS ENUM('MALE', 'FEMALE', 'NONBINARY', 'OTHER');
 CREATE TYPE division_type AS ENUM('1','2','3'); 
+
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY, 
 	email varchar(100) UNIQUE NOT NULL, 
-	type userType NOT NULL
+	type user_type NOT NULL
 );
 
 CREATE TABLE athlete (
 	user_id INT PRIMARY KEY,
   	first_name VARCHAR(64) NOT NULL,
   	last_name VARCHAR(64) NOT NULL,
-	gender genderType NOT NULL,
+	gender gender_type NOT NULL,
     gpa DEC(3, 2),
     sat INT ,
     act INT,
@@ -25,14 +26,14 @@ CREATE TABLE athlete (
 );
 
 CREATE TABLE school(
-	school_id INT PRIMARY KEY,  
+	school_id SERIAL PRIMARY KEY,
   	school_name VARCHAR(64) NOT NULL, 
   	school_location VARCHAR(64) NOT NULL,
-	type division_type NOT NULL,
+	division division_type NOT NULL
 );
 
 CREATE TABLE sport(
-	sport_id INT PRIMARY KEY,
+	sport_id SERIAL PRIMARY KEY,
   	sport_name VARCHAR(64) NOT NULL, 
 	type gender_type NOT NULL
 );
@@ -43,8 +44,7 @@ CREATE TABLE coach(
 	sport_id INT NOT NULL,
   	first_name VARCHAR(64), 
   	last_name VARCHAR(64),
-	
-	
+
 	CONSTRAINT coach_fk_school 
     	FOREIGN KEY(school_id)
 		REFERENCES school(school_id)
@@ -56,7 +56,7 @@ CREATE TABLE coach(
 );
 
 CREATE TABLE position_master (
-	position_id INT PRIMARY KEY,
+	position_id SERIAL PRIMARY KEY,
 	sport_id INT NOT NULL,
 	position_name VARCHAR(64) NOT NULL,
 	
@@ -66,13 +66,13 @@ CREATE TABLE position_master (
 		ON DELETE RESTRICT
 );
 
-
 CREATE TABLE measurable_master (
-	measurable_id INT PRIMARY KEY,
+	measurable_id SERIAL PRIMARY KEY,
 	sport_id INT NOT NULL,
 	position_id INT NOT NULL,
 	measureable_name VARCHAR(64) NOT NULL,
 	format VARCHAR(64) NOT NULL,
+	value VARCHAR(64) NOT NULL,
 	
 	CONSTRAINT measurable_fk_sport
 		FOREIGN KEY (sport_id)
@@ -85,14 +85,14 @@ CREATE TABLE measurable_master (
 );
 
 CREATE TABLE profile (
-	profile_id INT PRIMARY KEY,
+	profile_id SERIAL PRIMARY KEY,
 	user_id INT NOT NULL,
 	sport_id INT NOT NULL,
 	position_id INT NOT NULL,
 	
 	CONSTRAINT profile_fk_user
 		FOREIGN KEY (user_id)
-		REFERENCES app_user(user_id)
+		REFERENCES users (id)
 		ON DELETE RESTRICT,
 	CONSTRAINT profile_fk_sport
 		FOREIGN KEY (sport_id)
@@ -105,7 +105,7 @@ CREATE TABLE profile (
 );
 
 CREATE TABLE profile_measurable (
-	profile_measurable_id INT PRIMARY KEY,
+	profile_measurable_id SERIAL PRIMARY KEY,
 	profile_id INT NOT NULL,
 	measurable_id INT NOT NULL,
 	value VARCHAR(64) NOT NULL,
@@ -122,7 +122,7 @@ CREATE TABLE profile_measurable (
 );
 	
 CREATE TABLE profile_videos (
-	profile_video_id INT PRIMARY KEY,
+	profile_video_id SERIAL PRIMARY KEY,
 	video VARCHAR(64) NOT NULL,
 	description VARCHAR(64),
 	date_of_upload DATETIME NOT NULL,
@@ -130,23 +130,24 @@ CREATE TABLE profile_videos (
 		FOREIGN KEY (profile_id)
 		REFERENCES profile(profile_id)
 		ON DELETE RESTRICT
-)
+);
 
 CREATE TABLE profile_calendar (
-	profile_calendar_id INT PRIMARY KEY,
+	profile_calendar_id SERIAL PRIMARY KEY,
 	date_time_of_game SMALLDATETIME NOT NULL,
 	player_team VARCHAR(64) NOT NULL,
 	against_team VARCHAR(64) NOT NULL, 
-	description VARCHAR(64) NOT NULL
+	description VARCHAR(64) NOT NULL,
+
 	CONSTRAINT profile_measureable_fk_profile
 		FOREIGN KEY (profile_id)
 		REFERENCES profile(profile_id)
 		ON DELETE RESTRICT
-)
+);
 
 
-CREATE TABLE coachOpening (
-	opening_id INT PRIMARY KEY,
+CREATE TABLE coach_opening (
+	opening_id SERIAL PRIMARY KEY,
 	coach_id INT NOT NULL,
 	sport_id INT NOT NULL,
 	position_id INT NOT NULL,
@@ -166,8 +167,8 @@ CREATE TABLE coachOpening (
 		ON DELETE RESTRICT
 );
 
-CREATE TABLE sportOffering (
-	offering_id INT PRIMARY KEY,
+CREATE TABLE sport_offering (
+	offering_id SERIAL PRIMARY KEY,
 	school_id INT NOT NULL,
 	sport_id INT NOT NULL,
 	
@@ -182,7 +183,7 @@ CREATE TABLE sportOffering (
 );
 
 CREATE TABLE application (
-	application_id INT PRIMARY KEY,
+	application_id SERIAL PRIMARY KEY,
 	profile_id INT NOT NULL,
 	school_id INT NOT NULL,
 	sport_id INT NOT NULL,
@@ -207,9 +208,9 @@ CREATE TABLE application (
 );
 
 CREATE TABLE evalutation (
-	evalutation_id INT PRIMARY KEY,
+	evalutation_id SERIAL PRIMARY KEY,
 	coach_id INT NOT NULL, 
-	status ENUM('dismissed', 'accepted', 'unevaluated')
+	status ENUM ('dismissed', 'accepted', 'unevaluated'),
 	CONSTRAINT coach_fk_coach 
 		FOREIGN KEY (coach_id)
 		REFERENCES coach(coach_id)
@@ -217,22 +218,22 @@ CREATE TABLE evalutation (
 )
 
 CREATE TABLE chat (
-	chat_id INT PRIMARY KEY,
+	chat_id SERIAL PRIMARY KEY,
 	participant1 INT NOT NULL,
 	participant2 INT NOT NULL,
 	
 	CONSTRAINT chat_fk_user1
 		FOREIGN KEY (participant1)
-		REFERENCES app_user(user_id)
+		REFERENCES users (id)
 		ON DELETE RESTRICT,
 	CONSTRAINT chat_fk_user2
 		FOREIGN KEY (participant2)
-		REFERENCES app_user(user_id)
+		REFERENCES users (id)
 		ON DELETE RESTRICT
 );
 
 CREATE TABLE chat_message (
-	message_id INT PRIMARY KEY,
+	message_id SERIAL PRIMARY KEY,
 	chat_id INT NOT NULL,
 	chat_message VARCHAR NOT NULL,
 	message_time DATE NOT NULL,
