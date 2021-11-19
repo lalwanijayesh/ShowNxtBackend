@@ -1,26 +1,26 @@
-CREATE TYPE user_type AS ENUM('COACH', 'ATHLETE');
-CREATE TYPE gender_type AS ENUM('MALE', 'FEMALE', 'NONBINARY', 'OTHER');
+CREATE TYPE userType AS ENUM('COACH', 'ATHLETE');
+CREATE TYPE genderType AS ENUM('MALE', 'FEMALE', 'NONBINARY', 'OTHER');
 CREATE TYPE division_type AS ENUM('1','2','3'); 
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY, 
 	email varchar(100) UNIQUE NOT NULL, 
-	type user_type NOT NULL
+	type userType NOT NULL
 );
 
 CREATE TABLE athlete (
-	user_id INT PRIMARY KEY,  
-  	first_name VARCHAR(64) NOT NULL, 
+	user_id INT PRIMARY KEY,
+  	first_name VARCHAR(64) NOT NULL,
   	last_name VARCHAR(64) NOT NULL,
-	type gender_type NOT NULL,
+	gender genderType NOT NULL,
     gpa DEC(3, 2),
     sat INT ,
     act INT,
-    athlete_height INT,
-    athlete_weight INT,
+    height INT,
+    weight INT,
 	
 	CONSTRAINT athlete_fk_user 
     	FOREIGN KEY ( user_id )
-		REFERENCES app_user ( user_id )
+		REFERENCES users ( id )
 		ON DELETE RESTRICT
 );
 

@@ -5,7 +5,7 @@ require('dotenv').config();
 const env = process.env.ENV_TYPE;
 
 let db;
-if (env === 'PROD') {
+if (env === 'DEV') {
     db = new Pool({
         user: process.env.DB_USER,
         host: process.env.DB_HOST,
