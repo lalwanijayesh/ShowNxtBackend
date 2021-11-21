@@ -1,5 +1,5 @@
-const School = require("../../model/School");
-const {gets, getSchoolById} = require("../../dao/school.dao");
+// const School = require("../../model/School");
+const {getSchools, getSchoolById} = require("../../dao/school.dao");
 
 const schoolResolvers = {
     Query: {

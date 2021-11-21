@@ -8,7 +8,10 @@ const getSchoolById = async (schoolId) => {
 };
 
 const getSchools = async () => {
-    const res = await db.query("SELECT * FROM school");
+    const res = await db.query("SELECT school_id as schoolId, " +
+        "school_name as name, " +
+        "school_location as location " +
+        "FROM school");
     return res.rows;
 };
 
