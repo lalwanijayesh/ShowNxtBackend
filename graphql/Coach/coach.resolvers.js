@@ -3,7 +3,7 @@ const { getCoachs, getCoachById } = require("../../dao/coach.dao");
 
 const coachResolvers = {
   Query: {
-    coachs: () => {
+    coaches: () => {
       return getCoaches();
     },
     coach: (parent, args, context, info) => {
@@ -17,7 +17,7 @@ const coachResolvers = {
         args.schoolId,
         args.sportId,
         args.firstName,
-        args.lastName,
+        args.lastName
       );
     },
   },

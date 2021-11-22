@@ -1,4 +1,4 @@
-const {gql} = require("apollo-server");
+const { gql } = require("apollo-server");
 
 /**
  * Defines the sport type definition.
@@ -10,11 +10,11 @@ const Sport = gql`
     NONBINARY
     OTHER
   }
-  
+
   # Extends the top-level root Query object with specific queries
   extend type Query {
     sports: [Sport!]
-    sport(userId: ID!): Sport
+    sport(sportId: ID!): Sport
   }
 
   type Sport {

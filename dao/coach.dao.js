@@ -1,12 +1,6 @@
 const { db } = require("./database");
 
-const createCoach = async (
-  userId,
-  schoolId,
-  sportId,
-  firstName,
-  lastName
-) => {
+const createCoach = async (userId, schoolId, sportId, firstName, lastName) => {
   await db.query(
     "INSERT INTO coach (user_id, school_id, sport_id, first_name, last_name) " +
       "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
@@ -31,5 +25,5 @@ const getCoaches = async () => {
 module.exports = {
   createCoach,
   getCoachById,
-  getCoach,
+  getCoaches,
 };

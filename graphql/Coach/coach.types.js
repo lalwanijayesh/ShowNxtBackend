@@ -4,7 +4,6 @@ const { gql } = require("apollo-server");
  * Defines the coach type definition.
  */
 const Coach = gql`
-
   # Extends the top-level root Query object with specific queries
   extend type Query {
     coaches: [Coach!]
@@ -14,8 +13,8 @@ const Coach = gql`
   extend type Mutation {
     createCoach(
       userId: ID!
-      schoolId: SchoolId! 
-      sportId: SportId!
+      schoolId: ID!
+      sportId: ID!
       firstName: String!
       lastName: String!
     ): Coach
@@ -23,8 +22,8 @@ const Coach = gql`
 
   type Coach {
     userId: ID
-    schoolId: SchoolId
-    sportId: SportId
+    schoolId: ID
+    sportId: ID
     firstName: String
     lastName: String
   }
