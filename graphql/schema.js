@@ -26,8 +26,8 @@ const Mutation = `
 const resolvers = {} // any additional resolvers we might need that are not type-specific
 
 const rootSchema = {
-    typeDefs: [Query, Mutation, User, Athlete, School],
-    resolvers: merge(resolvers, userResolvers, athleteResolvers, schoolResolvers)
+    typeDefs: [Query, Mutation, User, Athlete, Coach, School, Sport],
+    resolvers: merge(resolvers, userResolvers, athleteResolvers, coachResolvers, schoolResolvers, sportResolvers)
 };
 
 module.exports = { rootSchema };
