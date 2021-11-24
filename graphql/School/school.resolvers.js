@@ -7,14 +7,6 @@ const schoolResolvers = {
       return getSchools();
     },
 
-    schoolsSearch: async (parent, args, context, info) => {
-      let schools = await getSchools();
-
-      return schools.filter((school) =>
-        school.name.toLowerCase().includes(args.term.toLowerCase())
-      );
-    },
-
     school: (parent, args, context, info) => {
       return getSchoolById((schoolId = args.schoolId));
     },
