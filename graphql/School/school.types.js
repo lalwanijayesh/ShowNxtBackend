@@ -7,6 +7,7 @@ const School = gql`
   # Extends the top-level root Query object with specific queries
   extend type Query {
     schools: [School!]
+    schoolSearch(term: String!): [School!]
     school(schoolId: ID!): School
   }
 
