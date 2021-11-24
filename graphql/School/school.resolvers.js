@@ -10,9 +10,9 @@ const schoolResolvers = {
     schoolsSearch: async (parent, args, context, info) => {
       let schools = await getSchools();
 
-      return schools.filter(({ schoolId, name, location }) => {
-        return name.includes(args.name);
-      });
+      return schools.filter((school) =>
+        school.name.toLowerCase().includes(args.term.toLowerCase())
+      );
     },
 
     school: (parent, args, context, info) => {
