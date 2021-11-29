@@ -73,11 +73,11 @@ class Coach {
 
     function addPositions(positions){
         for(var pos in positions){
-            this.addPosition(pos, positions[pos]);
+            this.updatePosition(pos, positions[pos]);
         }
     }
 
-    function addPosition(positionId, number) {
+    function updatePosition(positionId, number) {
        this._openPositions[positionId] = number
     }
 

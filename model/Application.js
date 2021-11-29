@@ -11,6 +11,7 @@ class Application {
         this._schoolId = schoolId;
         this._sportId = sportId;
         this._positionId = positionId;
+        this._status = "UNEVALUATED";
     }
 
     get profileId() {
@@ -50,15 +51,13 @@ class Application {
             profileId,
             schoolId,
             sportId,
-            firstName,
-            lastName
+            positionId,
         );
         return new Application(
             response.user_id,
             response.school_id,
             response.sport_id,
-            response.first_name,
-            response.last_name
+            response.position_id
         );
     }
 }

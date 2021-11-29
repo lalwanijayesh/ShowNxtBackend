@@ -1,7 +1,6 @@
 CREATE TYPE userType AS ENUM('COACH', 'ATHLETE');
 CREATE TYPE genderType AS ENUM('MALE', 'FEMALE', 'NONBINARY', 'OTHER');
 CREATE TYPE division_type AS ENUM('1','2','3');
-CREATE TYPE applicationStatus AS ENUM('UNEVALUATED', 'ACCEPT', 'REJECT');
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY, 
 	email varchar(100) UNIQUE NOT NULL, 
@@ -188,8 +187,7 @@ CREATE TABLE application (
 	school_id INT NOT NULL,
 	sport_id INT NOT NULL,
 	position_id INT NOT NULL,
-	status applicationStatus NOT NULL,
-	
+
 	CONSTRAINT application_fk_profile
 		FOREIGN KEY (profile_id)
 		REFERENCES profile(profile_id)

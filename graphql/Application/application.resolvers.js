@@ -29,9 +29,21 @@ const applicationResolvers = {
                                           wantedPositions = args.positions,
                                           10);
         },
-
-
-
+        acceptedApplicationByCoach: (parent, args, context, info) => {
+            return getApplicationsByCoach(coach = args.coach,
+                                          wantedPositions = args.positions,
+                                          10, 'ACCEPT');
+        },
+        rejectedApplicationByCoach: (parent, args, context, info) => {
+            return getApplicationsByCoach(coach = args.coach,
+                                          wantedPositions = args.positions,
+                                          10, 'REJECT');
+        },
+        unevaluatedApplicationByCoach: (parent, args, context, info) => {
+            return getApplicationsByCoach(coach = args.coach,
+                                          wantedPositions = args.positions,
+                                          10, 'UNEVALUATED');
+        },
         applicationsByProfile: (parent, args, context, info) => {
             return getApplicationByProfile(args.profile, 10);
         },
