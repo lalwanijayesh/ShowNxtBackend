@@ -1,4 +1,4 @@
-const { db } = require('./database'); 
+const { db } = require('./database');
 
 /**
  * 
@@ -15,18 +15,24 @@ const getApplicationById = async (id) => {
 }
 
 // TODO: need to implement "get open position in coach model object"
-const getApplicationsByCoach = async (coach, positionFilter, num) => {
-    var res = await db.query("SELECT TOP $1 * FROM application WHERE school = $2 AND sport = $3 AND position IN $4", 
-                        [num, coach.schoolId, coach.sportId, coach.getOpenPositions(positionFilter)]);
-    return res; 
+const getApplicationsByCoach = async (coach, wantedPositions, num, status) => {
+    var res;
+    if(status == null){
+        res = await db.query("SELECT TOP $1 * FROM application WHERE school = $2 AND sport = $3 AND position IN $4",
+                                 [num, coach.schoolId, coach.sportId, coach.openPositions(wantedPositions)]);
+    } else{
+        res = await db.query("SELECT TOP $1 * FROM application WHERE school = $2 AND sport = $3 AND position IN $4 AND status = $5",
+                                 [num, coach.schoolId, coach.sportId, coach.openPositions(wantedPositions), status]);
+    }
+    return res.rows;
 }
 
-const getApplicationByProfile = async (profile) => {
-    var res = await db.query("SELECT * FROM application WHERE profile = $1", [profile]); 
-    return res; 
+const getApplicationByProfile = async (profile, num) => {
+    var res = await db.query("SELECT TOP $1 * FROM application WHERE profileID = $2", [num, profile.id]);
+    return res.rows;
 }
 
 // need help writing a join command 
-const getApplicationsByAthlete = async (athlete) => {
+const getApplicationsByAthlete = async (athlete, num) => {
 
 }

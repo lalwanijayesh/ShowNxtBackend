@@ -6,13 +6,15 @@ class Coach {
         schoolId,
         sportId,
         firstName,
-        lastName
+        lastName,
+        openPositions
     ) {
         this._userId = userId;
         this._schoolId = schoolId;
         this._sportId = sportId;
         this._firstName = firstName;
         this._lastName = lastName;
+        this._openPositions = this.addPositions(openPositions);
     }
 
     get userId() {
@@ -53,6 +55,30 @@ class Coach {
 
     set lastName(value) {
         this._lastName = value;
+    }
+
+    get openPositions(wantedPositions) {
+        if(wantedPositions){
+            var ret = [];
+            for(var p in wantedPositions){
+                if (p in this._openPositions){
+                    ret.push(p);
+                }
+            }
+            return ret;
+        } else{
+            return Objects.keys(this._openPositions);
+        }
+    }
+
+    function addPositions(positions){
+        for(var pos in positions){
+            this.addPosition(pos, positions[pos]);
+        }
+    }
+
+    function addPosition(positionId, number) {
+       this._openPositions[positionId] = number
     }
 
     static async createCoach(userId, schoolId, sportId, firstName, lastName){
