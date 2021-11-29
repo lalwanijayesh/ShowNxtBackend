@@ -18,11 +18,11 @@ const getApplicationById = async (id) => {
 const getApplicationsByCoach = async (coach, wantedPositions, num, status) => {
     var res;
     if(status == "unevaluated"){
-        res = await db.query("SELECT TOP $1 * FROM application WHERE school = $2 AND sport = $3 AND position IN $4",
-                                 [num, coach.schoolId, coach.sportId, coach.openPositions(wantedPositions)]);
+        res = await db.query("SELECT * FROM application WHERE school = $2 AND sport = $3 AND position IN $4",
+                                 [coach.schoolId, coach.sportId, coach.openPositions(wantedPositions)]);
     } else{
-        res = await db.query("SELECT TOP $1 * FROM application WHERE school = $2 AND sport = $3 AND position IN $4",
-                                 [num, coach.schoolId, coach.sportId, coach.openPositions(wantedPositions), status]);
+        res = await db.query("SELECT * FROM application WHERE school = $2 AND sport = $3 AND position IN $4",
+                                 [coach.schoolId, coach.sportId, coach.openPositions(wantedPositions)]);
     }
     return res.rows;
 }
