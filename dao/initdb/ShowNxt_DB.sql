@@ -1,6 +1,8 @@
 CREATE TYPE userType AS ENUM('COACH', 'ATHLETE');
 CREATE TYPE genderType AS ENUM('MALE', 'FEMALE', 'NONBINARY', 'OTHER');
-CREATE TYPE division_type AS ENUM('1','2','3'); 
+CREATE TYPE division_type AS ENUM('1','2','3');
+CREATE TYPE evaluation_status AS ENUM('ACCEPTED', 'REJECTED', 'UNDECIDED');
+
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY, 
 	email varchar(100) UNIQUE NOT NULL, 
@@ -209,37 +211,43 @@ CREATE TABLE application (
 CREATE TABLE evalutation (
 	evalutation_id INT PRIMARY KEY,
 	coach_id INT NOT NULL, 
-	status ENUM('dismissed', 'accepted', 'unevaluated')
+	status evaluation_status NOT NULL,
 	CONSTRAINT coach_fk_coach 
 		FOREIGN KEY (coach_id)
-		REFERENCES coach(coach_id)
+		REFERENCES coach(user_id)
 		ON DELETE RESTRICT
 )
 
 CREATE TABLE chat (
-	chat_id INT PRIMARY KEY,
+	chat_id SERIAL PRIMARY KEY,
 	participant1 INT NOT NULL,
 	participant2 INT NOT NULL,
 	
 	CONSTRAINT chat_fk_user1
 		FOREIGN KEY (participant1)
-		REFERENCES app_user(user_id)
+		REFERENCES users(id)
 		ON DELETE RESTRICT,
 	CONSTRAINT chat_fk_user2
 		FOREIGN KEY (participant2)
-		REFERENCES app_user(user_id)
+		REFERENCES users(id)
 		ON DELETE RESTRICT
 );
 
 CREATE TABLE chat_message (
-	message_id INT PRIMARY KEY,
+	message_id SERIAL PRIMARY KEY,
 	chat_id INT NOT NULL,
+	author_id INT NOT NULL,
 	chat_message VARCHAR NOT NULL,
-	message_time DATE NOT NULL,
+	message_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT null,
 	
 	CONSTRAINT message_fk_chat
 		FOREIGN KEY (chat_id)
 		REFERENCES chat(chat_id)
+		ON DELETE restrict,
+	
+	CONSTRAINT message_fk_author
+		FOREIGN KEY (author_id)
+		REFERENCES users(id)
 		ON DELETE RESTRICT
 );
 

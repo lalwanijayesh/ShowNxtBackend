@@ -12,6 +12,8 @@ const { Sport } = require("./Sport/sport.types");
 const { sportResolvers } = require("./Sport/sport.resolvers");
 const { Position } = require("./Position/position.types");
 const { positionResolvers } = require("./Position/position.resolvers");
+const { Chat } = require("./Chat/chat.types");
+const { chatResolvers } = require("./Chat/chat.resolvers");
 
 // Note that we must have at least one field (empty in this case)
 // In this set up, we extend the root Query type within individual classes,
@@ -32,7 +34,17 @@ const Mutation = `
 const resolvers = {}; // any additional resolvers we might need that are not type-specific
 
 const rootSchema = {
-  typeDefs: [Query, Mutation, User, Athlete, Coach, School, Sport, Position],
+  typeDefs: [
+    Query,
+    Mutation,
+    User,
+    Athlete,
+    Coach,
+    School,
+    Sport,
+    Position,
+    Chat,
+  ],
   resolvers: merge(
     resolvers,
     userResolvers,
@@ -40,7 +52,8 @@ const rootSchema = {
     coachResolvers,
     schoolResolvers,
     sportResolvers,
-    positionResolvers
+    positionResolvers,
+    chatResolvers
   ),
 };
 
