@@ -16,4 +16,4 @@ const Position = gql`
   }
 `;
 
-module.exports = { Sport };
+module.exports = { Position };

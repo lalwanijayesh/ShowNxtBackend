@@ -1,7 +1,7 @@
 // const Sport = require("../../model/Sport");
 const { getPositions } = require("../../dao/position.dao");
 
-const sportResolvers = {
+const positionResolvers = {
   Query: {
     positions: (parent, args, context, info) => {
       return getPositions((sportId = args.sportId));
@@ -9,4 +9,4 @@ const sportResolvers = {
   },
 };
 
-module.exports = { sportResolvers };
+module.exports = { positionResolvers };
