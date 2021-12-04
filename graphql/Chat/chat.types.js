@@ -8,12 +8,14 @@ const Chat = gql`
   extend type Query {
     chats(userId: ID!): [Chat!]
 
-    chatMessages(chatId: ID!): [ChatMessage!]
-    chatMessage(messageId: ID!): ChatMessage
+    messages(chatId: ID!): [ChatMessage!]
+    message(messageId: ID!): ChatMessage
+
+    messagesSince(chatId: ID!, authorId: ID!, timestamp: Int!): [ChatMessage!]
   }
 
   extend type Mutation {
-    sendChatMessage(chatId: ID!, authorId: ID!, message: String!): ChatMessage
+    sendMessage(chatId: ID!, authorId: ID!, message: String!): ChatMessage
   }
 
   type Chat {

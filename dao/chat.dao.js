@@ -9,26 +9,29 @@ const getChats = async (userId) => {
   return res.rows;
 };
 
-const getChatMessages = async (chatId) => {
+const getMessages = async (chatId) => {
   const res = await db.query(
     'SELECT message_id as "messageId", ' +
       'chat_id as "chatId", ' +
       'author_id as "authorId", ' +
       'chat_message as "message", ' +
-      'message_time as "timestamp" FROM chat_message where chat_id = $1',
+      "to_char(message_time, 'DD Mon YYYY HH24:MI:SS') " +
+      'as "timestamp" ' +
+      "FROM chat_message where chat_id = $1",
     [chatId]
   );
 
   return res.rows;
 };
 
-const getChatMessage = async (messageId) => {
+const getMessage = async (messageId) => {
   const res = await db.query(
     'SELECT message_id as "messageId", ' +
       'chat_id as "chatId", ' +
       'author_id as "authorId", ' +
       'chat_message as "message", ' +
-      'message_time as "timestamp" ' +
+      "to_char(message_time, 'DD Mon YYYY HH24:MI:SS') " +
+      'as "timestamp" ' +
       "FROM chat_message where message_id = $1",
     [messageId]
   );
@@ -36,19 +39,22 @@ const getChatMessage = async (messageId) => {
   return res.rows[0];
 };
 
-const sendChatMessage = async (chatId, authorId, message) => {
+const sendMessage = async (chatId, authorId, message) => {
   const res = await db.query(
     "INSERT INTO chat_message (chat_id, author_id, chat_message) " +
       "VALUES ($1, $2, $3) RETURNING message_id",
     [chatId, authorId, message]
   );
 
-  return getChatMessage(res.rows[0].message_id);
+  return getMessage(res.rows[0].message_id);
 };
+
+const getMessagesSince = async (chatId, authorId, timestamp) => {};
 
 module.exports = {
   getChats,
-  getChatMessages,
-  getChatMessage,
-  sendChatMessage,
+  getMessage,
+  getMessages,
+  getMessagesSince,
+  sendMessage,
 };
