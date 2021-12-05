@@ -74,7 +74,7 @@ CREATE TABLE measurable_master (
 	measurable_id SERIAL PRIMARY KEY,
 	sport_id INT NOT NULL,
 	position_id INT NOT NULL,
-	measureable_name VARCHAR(64) NOT NULL,
+	measurable_name VARCHAR(64) NOT NULL,
 	format VARCHAR(64) NOT NULL,
 	
 	CONSTRAINT measurable_fk_sport
@@ -114,11 +114,11 @@ CREATE TABLE profile_measurable (
 	value VARCHAR(64) NOT NULL,
 	format VARCHAR(64) NOT NULL,
 	
-	CONSTRAINT profile_measureable_fk_profile
+	CONSTRAINT profile_measurable_fk_profile
 		FOREIGN KEY (profile_id)
 		REFERENCES profile(profile_id)
 		ON DELETE RESTRICT,
-	CONSTRAINT profile_measureable_fk_measurable
+	CONSTRAINT profile_measurable_fk_measurable
 		FOREIGN KEY (measurable_id)
 		REFERENCES measurable_master(measurable_id)
 		ON DELETE RESTRICT
@@ -130,7 +130,7 @@ CREATE TABLE profile_videos (
 	video VARCHAR(64) NOT NULL,
 	description VARCHAR(64),
 	date_of_upload TIMESTAMP NOT NULL,
-	CONSTRAINT profile_measureable_fk_profile
+	CONSTRAINT profile_measurable_fk_profile
 		FOREIGN KEY (profile_id)
 		REFERENCES profile(profile_id)
 		ON DELETE RESTRICT
@@ -144,7 +144,7 @@ CREATE TABLE profile_calendar (
 	player_team VARCHAR(64) NOT NULL,
 	against_team VARCHAR(64) NOT NULL, 
 	description VARCHAR(64) NOT NULL,
-	CONSTRAINT profile_measureable_fk_profile
+	CONSTRAINT profile_measurable_fk_profile
 		FOREIGN KEY (profile_id)
 		REFERENCES profile(profile_id)
 		ON DELETE RESTRICT

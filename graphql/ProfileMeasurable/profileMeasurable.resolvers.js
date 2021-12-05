@@ -17,7 +17,7 @@ const profileMeasurableResolvers = {
     },
     Mutation: {
         createProfileMeasurable: (parent, args, context, info) => {
-            return ProfileMeasurable.createProfileMeasurable(
+            return createProfileMeasurable(
                 args.profileId,
                 args.measurableId,
                 args.value

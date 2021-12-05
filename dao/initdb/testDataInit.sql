@@ -27,6 +27,9 @@ INSERT INTO position_master (sport_id, position_name) VALUES (4, 'Small Forward'
 INSERT INTO position_master (sport_id, position_name) VALUES (4, 'Point Guard');
 INSERT INTO position_master (sport_id, position_name) VALUES (4, 'Shooting Guard');
 
+INSERT INTO measurable_master (sport_id, position_id, measurable_name, format) VALUES (1, 2, 'Mile', 'Time');
+INSERT INTO measurable_master (sport_id, position_id, measurable_name, format) VALUES (1, 1, 'Defend Rate', 'Percentage');
+
 INSERT INTO school (school_name, school_location, division) VALUES ('Northeastern', 'Boston, MA', '3');
 INSERT INTO school (school_name, school_location, division) VALUES ('Harvard', 'Cambridge, MA', '1');
 
@@ -37,4 +40,5 @@ INSERT INTO users (email, type) VALUES ('janeCoach@email.com', 'COACH');
 
 INSERT INTO athlete (user_id, first_name, last_name, gender, gpa, sat, act, height, weight) VALUES (1, 'John', 'Doe', 'MALE', 3.0, 1500, 30, 67, 170);
 INSERT INTO athlete (user_id, first_name, last_name, gender, gpa, sat, act, height, weight) VALUES (2, 'Jane', 'Doe', 'FEMALE', 4.0, 1550, 33, 60, 120);
+
 

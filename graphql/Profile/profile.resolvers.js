@@ -1,5 +1,6 @@
-const Profile = require("../../model/Profile");
 const { getProfiles, getProfileById, getProfilesByAthlete, createProfile } = require("../../dao/profile.dao");
+const { createProfileMeasurable } = require("../../dao/profile.measurable.dao");
+const { startTransaction, endTransaction } = require("../../dao/transaction.dao");
 
 const profileResolvers = {
     Query: {
@@ -15,13 +16,29 @@ const profileResolvers = {
     },
     Mutation: {
 
-        createProfile: (parent, args, context, info) => {
-            return createProfile(
+        createProfile: async (parent, args, context, info) => {
+            startTransaction().then();
+
+            console.log(args);
+            const profile = await createProfile(
                 args.user_id,
-                args.sport_id,
                 args.position_id
-            );
-        },
+            ).then();
+            console.log("profile created", profile);
+            var measurables = {};
+            args.measurable_id.map(function (m, i) {
+                measurables[m] = args.value[i];
+            })
+            console.log("measurables populated", measurables);
+            profile.measurables = await args.measurable_id.map(
+                async m => await createProfileMeasurable(profile.profileId, m, measurables[m]).then());
+            console.log("measurables after gql", profile.measurables);
+            console.log("final profile", profile);
+
+            endTransaction().then();
+
+            return profile;
+            },
     },
 };
 
