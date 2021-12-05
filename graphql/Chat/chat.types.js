@@ -11,7 +11,7 @@ const Chat = gql`
     messages(chatId: ID!): [ChatMessage!]
     message(messageId: ID!): ChatMessage
 
-    messagesSince(chatId: ID!, authorId: ID!, timestamp: Int!): [ChatMessage!]
+    messagesSince(chatId: ID!, authorId: ID!, epoch: Int!): [ChatMessage!]
   }
 
   extend type Mutation {
@@ -29,7 +29,7 @@ const Chat = gql`
     chatId: ID!
     authorId: ID!
     message: String!
-    timestamp: String!
+    epoch: Int!
   }
 `;
 

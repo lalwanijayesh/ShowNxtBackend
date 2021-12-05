@@ -22,7 +22,7 @@ const chatResolvers = {
     },
 
     messagesSince: (parent, args, context, info) => {
-      return getMessagesSince(args.chatId, args.authorId, args.timestamp);
+      return getMessagesSince(args.chatId, args.authorId, args.epoch);
     },
   },
   Mutation: {

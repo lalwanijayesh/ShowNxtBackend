@@ -238,7 +238,7 @@ CREATE TABLE chat_message (
 	chat_id INT NOT NULL,
 	author_id INT NOT NULL,
 	chat_message VARCHAR NOT NULL,
-	message_time TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() at time zone 'utc') NOT null,
+	message_time TIMESTAMP WITH TIME ZONE DEFAULT (now() at time zone 'utc') NOT null,
 	
 	CONSTRAINT message_fk_chat
 		FOREIGN KEY (chat_id)
