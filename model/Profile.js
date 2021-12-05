@@ -1,6 +1,6 @@
-const profileDao = require("../dao/profile.dao");
-const profileMeasurableDao = require("../dao/profile.measurable.dao");
+//const profileDao = require("../dao/profile.dao");
 const transactionDao = require("../dao/transaction.dao");
+const profileMeasurableDao = require("../dao/profile.measurable.dao");
 
 class Profile {
     get calendar() {
@@ -21,16 +21,16 @@ class Profile {
         profileId,
         userId,
         sportId,
-        positionId,
-        measurables,  // list of Measurable Types
-        calendar      // list of Calendar Types
+        positionId
+       // measurables,  // list of Measurable Types
+       // calendar      // list of Calendar Types
     ) {
         this._profileId = profileId;
         this._userId = userId;
         this._sportId = sportId;
         this._positionId = positionId;
-        this._measurables = measurables;
-        this._calendar = calendar;
+      //  this._measurables = measurables;
+       // this._calendar = calendar;
     }
 
     get profileId() {
@@ -65,14 +65,17 @@ class Profile {
         this._sportId = value;
     }
 
-    static async createProfile(userId, sportId, positionId, measurables, calendar){
-        await transactionDao.startTransaction();
-
-        const responseProf = await profileDao.createProfile(
-            userId,
-            sportId,
-            positionId
+    static async createFromDB(row){
+        return new Profile(
+            row.profile_id,
+            row.user_id,
+            row.sport_id,
+            row.position_id
         );
+    }
+
+    static async createProfileFields(profile, measurables, videos, calendar) {
+        await transactionDao.startTransaction();
 
         const newMeasureables = [];
         for( const m of measurables ){
@@ -87,8 +90,7 @@ class Profile {
             responseProf.profile_id,
             responseProf.user_id,
             responseProf.sport_id,
-            responseProf.position_id,
-            newMeasureables
+            responseProf.position_id
         );
     }
 }

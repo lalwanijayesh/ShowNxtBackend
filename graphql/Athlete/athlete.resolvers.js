@@ -1,28 +1,28 @@
 const Athlete = require("../../model/Athlete");
-const { getAthletes, getAthleteById } = require("../../dao/athlete.dao");
+const { getAthletes, getAthleteById, createAthlete } = require("../../dao/athlete.dao");
 
 const athleteResolvers = {
   Query: {
     athletes: () => {
-      return getAthletes();
+      return getAthletes().then();
     },
     athlete: (parent, args, context, info) => {
-      return getAthleteById((userId = args.userId));
+      return getAthleteById((user_id = args.user_id)).then();
     },
   },
   Mutation: {
     createAthlete: (parent, args, context, info) => {
-      return Athlete.createAthlete(
-        args.userId,
-        args.firstName,
-        args.lastName,
-        args.gender,
-        args.gpa,
-        args.sat,
-        args.act,
-        args.height,
-        args.weight
-      );
+      return createAthlete(
+          args.user_id,
+          args.first_name,
+          args.last_name,
+          args.gender,
+          args.gpa,
+          args.sat,
+          args.act,
+          args.height,
+          args.weight
+      )
     },
   },
 };

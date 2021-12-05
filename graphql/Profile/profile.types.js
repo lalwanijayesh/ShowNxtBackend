@@ -1,5 +1,5 @@
 const { gql } = require("apollo-server");
-
+const ProfileMeasurable = require("../ProfileMeasurable/profileMeasurable.types");
 /**
  * Defines the profile type definition.
  */
@@ -7,15 +7,15 @@ const Profile = gql`
   # Extends the top-level root Query object with specific queries
   extend type Query {
     profiles: [Profile!]
-    profilesAthlete(userId: ID!): [Profile!]
-    profile(profileId: ID!): Profile
+    profilesAthlete(user_id: ID!): [Profile!]
+    profile(profile_id: ID!): Profile
   }
 
   extend type Mutation {
     createProfile(
-      userId: ID!
-      sportId: ID!
-      positionId: ID!
+      user_id: ID!
+      sport_id: ID!
+      position_id: ID!
     ): Profile
   }
 

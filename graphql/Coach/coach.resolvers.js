@@ -1,5 +1,5 @@
 const Coach = require("../../model/Coach");
-const { getCoachs, getCoachById } = require("../../dao/coach.dao");
+const { getCoaches, getCoachById, createCoach } = require("../../dao/coach.dao");
 
 const coachResolvers = {
   Query: {
@@ -12,7 +12,7 @@ const coachResolvers = {
   },
   Mutation: {
     createCoach: (parent, args, context, info) => {
-      return Coach.createCoach(
+      return createCoach(
         args.userId,
         args.schoolId,
         args.sportId,

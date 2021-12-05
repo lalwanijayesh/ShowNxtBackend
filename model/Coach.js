@@ -1,4 +1,4 @@
-const coachDao = require("../dao/coach.dao");
+//const coachDao = require("../dao/coach.dao");
 
 class Coach {
     constructor(
@@ -57,7 +57,7 @@ class Coach {
         this._lastName = value;
     }
 
-    get openPositions(wantedPositions) {
+     openPositions(wantedPositions) {
         if(wantedPositions){
             var ret = [];
             for(var p in wantedPositions){
@@ -71,14 +71,24 @@ class Coach {
         }
     }
 
-    function addPositions(positions){
+    addPositions(positions){
         for(var pos in positions){
             this.updatePosition(pos, positions[pos]);
         }
     }
 
-    function updatePosition(positionId, number) {
+    updatePosition(positionId, number) {
        this._openPositions[positionId] = number
+    }
+
+    static async createFromDB(row){
+        return new Coach(
+            row.user_id,
+            row.school_id,
+            row.sport_id,
+            row.first_name,
+            row.last_name
+        );
     }
 
     static async createCoach(userId, schoolId, sportId, firstName, lastName){

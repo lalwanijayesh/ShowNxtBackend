@@ -31,6 +31,6 @@ const getProfileMeasurableByProfileAndMeasurable = async (profileId, measurableI
 
 module.exports = {
     createProfileMeasurable,
-    getProfileMeasurableByProfile: getProfileMeasurablesByProfile,
+    getProfileMeasurablesByProfile,
     getProfileMeasurableByProfileAndMeasurable
 };

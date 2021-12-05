@@ -1,4 +1,4 @@
-const athleteDao = require("../dao/athlete.dao");
+//const athleteDao = require("../dao/athlete.dao");
 
 class Athlete {
   constructor(
@@ -95,6 +95,18 @@ class Athlete {
     this._weight = value;
   }
 
+  static async createFromDB(row){
+    return new Athlete(row.user_id,
+                       row.first_name,
+                       row.last_name,
+                       row.gender,
+                       row.gpa,
+                       row.sat,
+                       row.act,
+                       row.height,
+                       row.weight)
+  }
+/*
   static async createAthlete(userId, firstName, lastName, gender, gpa, sat, act, height, weight) {
     const response = await athleteDao
       .createAthlete(
@@ -109,7 +121,8 @@ class Athlete {
         weight
       );
     // TODO create mapper to transform db responses to model object
-    return new Athlete(
+    return response;
+    /*return new Athlete(
       response.user_id,
       response.first_name,
       response.last_name,
@@ -120,7 +133,10 @@ class Athlete {
       response.height,
       response.weight
     );
+
+
   }
+  */
 }
 
 module.exports = Athlete;

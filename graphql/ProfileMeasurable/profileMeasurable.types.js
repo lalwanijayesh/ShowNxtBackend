@@ -11,7 +11,7 @@ const ProfileMeasurable = gql`
   }
 
   extend type Mutation {
-    createMeasurable(
+    createProfileMeasurable(
       profileId: ID!
       measurableId: ID!
       value: String!
