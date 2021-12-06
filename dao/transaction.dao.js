@@ -6,6 +6,7 @@ const startTransaction = async () => {
 
 const endTransaction = async () => {
     await db.query("COMMIT;");
+    console.log("end transaction");
 }
 
 module.exports = {

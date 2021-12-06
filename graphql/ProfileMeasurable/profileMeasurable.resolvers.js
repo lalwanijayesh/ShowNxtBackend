@@ -1,23 +1,22 @@
-const ProfileMeasurable = require("../../model/ProfileMeasurable");
 const {
     createProfileMeasurable,
-    getProfileMeasurableByProfile,
+    getProfileMeasurablesByProfile,
     getProfileMeasurableByProfileAndMeasurable
  } = require("../../dao/profile.measurable.dao");
 
 const profileMeasurableResolvers = {
     Query: {
-        profileMeasurableByProfile: (parent, args, context, info) => {
-            return getProfileMeasurableByProfile((profileId = args.profileId));
+        getProfileMeasurablesByProfile: (parent, args, context, info) => {
+            return getProfileMeasurablesByProfile((profileId = args.profileId));
         },
-        profileMeasurableByProfileAndMeasurable: (parent, args, context, info) => {
+        getProfileMeasurableByProfileAndMeasurable: (parent, args, context, info) => {
             return getProfileMeasurableByProfileAndMeasurable((profileId = args.profileId),
                                                                (measurableId = args.measurableId));
         }
     },
     Mutation: {
         createProfileMeasurable: (parent, args, context, info) => {
-            return ProfileMeasurable.createProfileMeasurable(
+            return createProfileMeasurable(
                 args.profileId,
                 args.measurableId,
                 args.value
