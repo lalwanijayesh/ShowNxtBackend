@@ -1,6 +1,10 @@
-const { getProfiles, getProfileById, getProfilesByAthlete, createProfile } = require("../../dao/profile.dao");
-const { createProfileMeasurable } = require("../../dao/profile.measurable.dao");
+const { getProfiles, getProfileById, getProfilesByAthlete, createProfile,
+    getProfileWithMeasurable
+} = require("../../dao/profile.dao");
+const { createProfileMeasurables} = require("../../dao/profile.measurable.dao");
 const { startTransaction, endTransaction } = require("../../dao/transaction.dao");
+
+
 
 const profileResolvers = {
     Query: {
@@ -12,29 +16,20 @@ const profileResolvers = {
         },
         profile: (parent, args, context, info) => {
             return getProfileById((profile_id = args.profile_id)).then();
+        },
+        profileWithMeasurables: (parent, args, context, info) => {
+            return getProfileWithMeasurable(profile_id = args.profile_id).then();
         }
     },
     Mutation: {
-
         createProfile: async (parent, args, context, info) => {
             startTransaction().then();
-
             console.log(args);
             const profile = await createProfile(
                 args.user_id,
                 args.position_id
             ).then();
-            console.log("profile created", profile);
-            var measurables = {};
-            args.measurable_id.map(function (m, i) {
-                measurables[m] = args.value[i];
-            })
-            console.log("measurables populated", measurables);
-            profile.measurables = await args.measurable_id.map(
-                async m => await createProfileMeasurable(profile.profileId, m, measurables[m]).then());
-            console.log("measurables after gql", profile.measurables);
-            console.log("final profile", profile);
-
+            profile.measurables = await createProfileMeasurables(profile.profileId, args.measurable_id, args.value);
             endTransaction().then();
 
             return profile;

@@ -15,11 +15,30 @@ const createProfileMeasurable = async (
     return getProfileMeasurableByProfileAndMeasurable(profileId, measurableId);
 };
 
+const createProfileMeasurables = async (
+    profileId,
+    measurableIds,
+    values
+)=> {
+   /*
+    await measurableIds.map(async function(m_id, i) {
+        await createProfileMeasurable(profileId, m_id, values[i]);
+    })
+    */
+    let count = 0;
+    for (let i = 0 ; i < measurableIds.length; i++){
+        await createProfileMeasurable(profileId, measurableIds[i], values[i]).then(count++);
+    }
+    if(count === measurableIds.length){
+       return getProfileMeasurablesByProfile(profileId);
+    }
+}
+
 const getProfileMeasurablesByProfile = async (profileId) => {
-    const res = await db.query("SELECT * FROM profile_measurable WHERE profile_id = $1" [
-                                   profileId
-                                   ]);
-    return row.map(row => new ProfileMeasurable(row.profile_id, row.measurable_id, row.value));
+    const res = await db.query("SELECT * FROM profile_measurable WHERE profile_id = $1", [
+                                   profileId]);
+    console.log(res.rows);
+    return res.rows.map(row => new ProfileMeasurable(row.profile_id, row.measurable_id, row.value));
 };
 
 const getProfileMeasurableByProfileAndMeasurable = async (profileId, measurableId) => {
@@ -33,6 +52,7 @@ const getProfileMeasurableByProfileAndMeasurable = async (profileId, measurableI
 
 module.exports = {
     createProfileMeasurable,
+    createProfileMeasurables,
     getProfileMeasurablesByProfile,
     getProfileMeasurableByProfileAndMeasurable
 };

@@ -1,5 +1,6 @@
 const { db } = require("./database");
 const Profile = require("../model/Profile");
+const ProfileMeasurable = require("../model/ProfileMeasurable");
 
 const createProfile = async (
     userId,
@@ -23,11 +24,20 @@ const getProfilesByAthlete = async (userId) => {
 };
 
 const getProfileByAthleteAndPosition = async (userId, positionId) => {
-    console.log(userId, positionId);
     const res = await db.query("SELECT * FROM profile WHERE user_id = $1 AND position_id = $2" , [
         userId, positionId
     ]).then();
     return new Profile(res.rows[0].profile_id, res.rows[0].user_id, res.rows[0].position_id);
+}
+
+const getProfileWithMeasurable = async (profileId) => {
+    const res = await db.query(
+        "SELECT * FROM profile INNER JOIN profile_measurable ON (profile.profile_id = profile_measurable.profile_id)"
+        + " WHERE profile.profile_id = $1;", [
+            profileId
+        ])
+    return new Profile(res.rows[0].profile_id, res.rows[0].user_id, res.rows[0].position_id,
+                       res.rows.map(row => new ProfileMeasurable(row.profile_id, row.measurable_id, row.value)));
 }
 
 const getProfiles = async () => {
@@ -48,6 +58,7 @@ const getProfileById = async (profileId) => {
 module.exports = {
     createProfile,
     getProfileById,
+    getProfileWithMeasurable,
     getProfiles,
     getProfilesByAthlete,
     getProfileByAthleteAndPosition

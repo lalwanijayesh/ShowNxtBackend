@@ -8,6 +8,7 @@ const Profile = gql`
     profiles: [Profile!]
     profilesAthlete(user_id: ID!): [Profile!]
     profile(profile_id: ID!): Profile
+    profileWithMeasurables(profile_id: ID!): Profile 
   }
 
   extend type Mutation {
