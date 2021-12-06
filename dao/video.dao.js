@@ -3,11 +3,11 @@ const {db} = require("./database");
 
 const addProfileVideo = async (profileId, filePath, description) => {
     const uploadDate = new Date().toLocaleString();
-    const videoId = await db.query("INSERT INTO profile_videos " +
+    const res = await db.query("INSERT INTO profile_videos " +
         "(profile_id, file_path, description, upload_date) " +
         "VALUES ($1, $2, $3, $4) RETURNING video_id",
         [profileId, filePath, description, uploadDate]);
-    //return getVideoById(videoId);
+    return getVideoById(res.rows[0].video_id);
 };
 
 const getProfileVideos = async (profileId) => {
@@ -17,7 +17,6 @@ const getProfileVideos = async (profileId) => {
 };
 
 const getVideoById = async (videoId) => {
-    console.log(videoId)
     const res = await db.query("SELECT * FROM profile_videos WHERE video_id = $1", [videoId]);
     // TODO - create exception handler in case of no rows
     return new ProfileVideo(
