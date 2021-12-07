@@ -106,37 +106,6 @@ class Athlete {
                        row.height,
                        row.weight)
   }
-/*
-  static async createAthlete(userId, firstName, lastName, gender, gpa, sat, act, height, weight) {
-    const response = await athleteDao
-      .createAthlete(
-        userId,
-        firstName,
-        lastName,
-        gender,
-        gpa,
-        sat,
-        act,
-        height,
-        weight
-      );
-    // TODO create mapper to transform db responses to model object
-    return response;
-    /*return new Athlete(
-      response.user_id,
-      response.first_name,
-      response.last_name,
-      response.gender,
-      response.gpa,
-      response.sat,
-      response.act,
-      response.height,
-      response.weight
-    );
-
-
-  }
-  */
 }
 
 module.exports = Athlete;

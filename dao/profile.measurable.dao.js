@@ -37,7 +37,6 @@ const createProfileMeasurables = async (
 const getProfileMeasurablesByProfile = async (profileId) => {
     const res = await db.query("SELECT * FROM profile_measurable WHERE profile_id = $1", [
                                    profileId]);
-    console.log(res.rows);
     return res.rows.map(row => new ProfileMeasurable(row.profile_id, row.measurable_id, row.value));
 };
 
@@ -46,7 +45,6 @@ const getProfileMeasurableByProfileAndMeasurable = async (profileId, measurableI
         "SELECT * FROM profile_measurable WHERE profile_id = $1 AND measurable_id = $2", [
             profileId, measurableId
         ]);
-    console.log(res.rows[0]);
     return new ProfileMeasurable(res.rows[0].profile_id, res.rows[0].measurable_id, res.rows[0].value);
 }
 

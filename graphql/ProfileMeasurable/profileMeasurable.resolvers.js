@@ -6,10 +6,10 @@ const {
 
 const profileMeasurableResolvers = {
     Query: {
-        getProfileMeasurablesByProfile: (parent, args, context, info) => {
+        profileMeasurablesByProfile: (parent, args, context, info) => {
             return getProfileMeasurablesByProfile((profileId = args.profileId));
         },
-        getProfileMeasurableByProfileAndMeasurable: (parent, args, context, info) => {
+        profileMeasurableByProfileAndMeasurable: (parent, args, context, info) => {
             return getProfileMeasurableByProfileAndMeasurable((profileId = args.profileId),
                                                                (measurableId = args.measurableId));
         }

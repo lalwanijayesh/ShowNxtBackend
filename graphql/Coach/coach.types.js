@@ -8,6 +8,7 @@ const Coach = gql`
   extend type Query {
     coaches: [Coach!]
     coach(userId: ID!): Coach
+    coachWithOpenPositions(userId: ID!): Coach
   }
 
   extend type Mutation {
@@ -17,6 +18,7 @@ const Coach = gql`
       sportId: ID!
       firstName: String!
       lastName: String!
+      openPositions: [ID!] 
     ): Coach
   }
 
@@ -26,6 +28,7 @@ const Coach = gql`
     sportId: ID
     firstName: String
     lastName: String
+    openPositions: [ID!] 
   }
 `;
 

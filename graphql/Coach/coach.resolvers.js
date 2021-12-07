@@ -1,4 +1,3 @@
-const Coach = require("../../model/Coach");
 const { getCoaches, getCoachById, createCoach } = require("../../dao/coach.dao");
 
 const coachResolvers = {
@@ -17,7 +16,8 @@ const coachResolvers = {
         args.schoolId,
         args.sportId,
         args.firstName,
-        args.lastName
+        args.lastName,
+        args.openPositions
       );
     },
   },

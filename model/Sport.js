@@ -29,12 +29,6 @@ class Sport {
         this._sportName = sportName;
         this._gender = gender;
     }
-
-    static async createFromDB(row){
-        return new Sport(row.sport_id,
-                           row.sport_name,
-                           row.gender);
-    }
 }
 
 module.exports = Sport;

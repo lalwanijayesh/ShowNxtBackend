@@ -1,9 +1,9 @@
-const Application = require("../../model/Application");
 const {
     createApplication,
+    getApplications,
     getApplicationById,
     getApplicationsByCoach,
-    getApplicationsByAthlete
+    getApplicationByProfile
 } = require("../../dao/application.dao");
 
 const applicationResolvers = {
@@ -14,39 +14,38 @@ const applicationResolvers = {
         application: (parent, args, context, info) => {
             return getApplicationById((userId = args.appId));
         },
-        applicationByCoach: (parent, args, context, info) => {
+        /*
+        applicationsByCoach: (parent, args, context, info) => {
             return getApplicationsByCoach(coach = args.coach,
                                           wantedPositions = args.positions);
         },
-        acceptedApplicationByCoach: (parent, args, context, info) => {
+        acceptedApplicationsByCoach: (parent, args, context, info) => {
             return getApplicationsByCoach(coach = args.coach,
                                           wantedPositions = args.positions,
-                                          10, 'ACCEPT');
+                                          'ACCEPT');
         },
-        rejectedApplicationByCoach: (parent, args, context, info) => {
+        rejectedApplicationsByCoach: (parent, args, context, info) => {
             return getApplicationsByCoach(coach = args.coach,
                                           wantedPositions = args.positions,
-                                          10, 'REJECT');
+                                          'REJECT');
         },
-        unevaluatedApplicationByCoach: (parent, args, context, info) => {
+        unevaluatedApplicationsByCoach: (parent, args, context, info) => {
             return getApplicationsByCoach(coach = args.coach,
                                           wantedPositions = args.positions,
-                                          10, 'UNEVALUATED');
+                                          'UNEVALUATED');
         },
         applicationsByProfile: (parent, args, context, info) => {
-            return getApplicationByProfile(args.profile, 10);
-        },
-        applicationsByAthlete: (parent, args, context, info) => {
-            return getApplicationsByAthlete(args.athlete, 10);
+            return getApplicationByProfile(args.profile);
         }
+
+         */
     },
     Mutation: {
         createApplication: (parent, args, context, info) => {
-            return Application.createApplication(
-                args.profile,
-                args.school,
-                args.sport,
-                args.position,
+            return createApplication(
+                args.profileId,
+                args.schoolId,
+                args.positionId
             );
         },
     },

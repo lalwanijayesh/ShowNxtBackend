@@ -80,33 +80,6 @@ class Coach {
     updatePosition(positionId, number) {
        this._openPositions[positionId] = number
     }
-
-    static async createFromDB(row){
-        return new Coach(
-            row.user_id,
-            row.school_id,
-            row.sport_id,
-            row.first_name,
-            row.last_name
-        );
-    }
-
-    static async createCoach(userId, schoolId, sportId, firstName, lastName){
-        const response = await coachDao.createCoach(
-            userId,
-            schoolId,
-            sportId,
-            firstName,
-            lastName
-        );
-        return new Coach(
-            response.user_id,
-            response.school_id,
-            response.sport_id,
-            response.first_name,
-            response.last_name
-        );
-    }
 }
 
 module.exports = Coach; 

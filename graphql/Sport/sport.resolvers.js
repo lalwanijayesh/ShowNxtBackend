@@ -1,4 +1,3 @@
-// const Sport = require("../../model/Sport");
 const { getSports, getSportById } = require("../../dao/sport.dao");
 
 const sportResolvers = {

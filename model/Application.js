@@ -4,14 +4,11 @@ class Application {
     constructor(
         profileId,
         schoolId,
-        sportId,
         positionId
     ) {
         this._profileId = profileId;
         this._schoolId = schoolId;
-        this._sportId = sportId;
         this._positionId = positionId;
-        this._status = "UNEVALUATED";
     }
 
     get profileId() {
@@ -30,35 +27,12 @@ class Application {
         this._schoolId = value;
     }
 
-    get sportId() {
-        return this._sportId;
-    }
-
-    set sportId(value) {
-        this._sportId = value;
-    }
-
     get positionId() {
         return this._positionId;
     }
 
     set positionId(value) {
         this._positionId = value;
-    }
-
-    static async createApplication(profileId, schoolId, sportId, positionId){
-        const response = await applicationDao.createApplication(
-            profileId,
-            schoolId,
-            sportId,
-            positionId,
-        );
-        return new Application(
-            response.user_id,
-            response.school_id,
-            response.sport_id,
-            response.position_id
-        );
     }
 }
 

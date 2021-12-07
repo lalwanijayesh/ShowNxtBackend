@@ -1,5 +1,3 @@
-// const profileMeasurableDao = require("../dao/profile.measurable.dao");
-
 class ProfileMeasurable {
 
     constructor(
@@ -31,18 +29,6 @@ class ProfileMeasurable {
 
     set profileId(value) {
         this._profileId = value;
-    }
-
-    static async createProfileMeasurable(profileId, measurableId, value){
-        const response = await profileMeasurableDao.createProfileMeasurable(
-            profileId, measurableId, value
-        );
-
-        return new ProfileMeasurable(
-            response.profile_id,
-            response.measurable_id,
-            response.value
-        );
     }
 }
 module.exports = ProfileMeasurable;
