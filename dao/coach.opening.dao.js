@@ -15,6 +15,20 @@ const createCoachOpening = async (
     return getCoachOpeningById(res.rows[0].opening_id);
 };
 
+const createCoachOpenings = async (
+    coach_id,
+    position_ids,
+    opening_counts
+) => {
+    let count = 0;
+    for (let i = 0 ; i < position_ids.length; i++){
+        await createCoachOpening(coach_id, position_ids[i], opening_counts[i]).then(count++);
+    }
+    if(count === position_ids.length){
+        return getCoachOpeningByCoach(coach_id);
+    }
+}
+
 const getCoachOpenings = async () => {
     var res = await db.query("SELECT * FROM coach_opening");
     return res.rows.map(row => new CoachOpening(row.coach_id,
@@ -45,6 +59,7 @@ const getCoachOpeningByCoach = async (coach_id) => {
 
 module.exports = {
     createCoachOpening,
+    createCoachOpenings,
     getCoachOpenings,
     getCoachOpeningById,
     getCoachOpeningByCoach

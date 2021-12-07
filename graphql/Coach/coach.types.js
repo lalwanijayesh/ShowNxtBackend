@@ -18,7 +18,8 @@ const Coach = gql`
       sportId: ID!
       firstName: String!
       lastName: String!
-      openPositions: [ID!] 
+      openPositionIds: [ID!] 
+      openPositionValues: [Int!] 
     ): Coach
   }
 
@@ -28,7 +29,7 @@ const Coach = gql`
     sportId: ID
     firstName: String
     lastName: String
-    openPositions: [ID!] 
+    openPositions: [CoachOpening!] 
   }
 `;
 

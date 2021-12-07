@@ -1,6 +1,13 @@
 //const coachDao = require("../dao/coach.dao");
 
 class Coach {
+    get openPositions() {
+        return this._openPositions;
+    }
+
+    set openPositions(value) {
+        this._openPositions = value;
+    }
     constructor(
         userId,
         schoolId,
@@ -14,7 +21,8 @@ class Coach {
         this._sportId = sportId;
         this._firstName = firstName;
         this._lastName = lastName;
-        this._openPositions = this.addPositions(openPositions);
+        this._openPositions = openPositions;
+       // this._openPositions = this.addPositions(openPositions);
     }
 
     get userId() {
@@ -57,6 +65,7 @@ class Coach {
         this._lastName = value;
     }
 
+    /*
      openPositions(wantedPositions) {
         if(wantedPositions){
             var ret = [];
@@ -71,6 +80,9 @@ class Coach {
         }
     }
 
+     */
+
+    /*
     addPositions(positions){
         for(var pos in positions){
             this.updatePosition(pos, positions[pos]);
@@ -80,6 +92,8 @@ class Coach {
     updatePosition(positionId, number) {
        this._openPositions[positionId] = number
     }
+
+     */
 }
 
 module.exports = Coach; 
