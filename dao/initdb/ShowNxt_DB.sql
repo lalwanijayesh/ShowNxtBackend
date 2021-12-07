@@ -1,7 +1,7 @@
 CREATE TYPE user_type AS ENUM('COACH', 'ATHLETE');
 CREATE TYPE gender_type AS ENUM('MALE', 'FEMALE', 'NONBINARY', 'OTHER');
 CREATE TYPE division_type AS ENUM('1','2','3');
-CREATE TYPE evaluation_status AS ENUM('dismissed', 'accepted', 'unevaluated');
+CREATE TYPE evaluation_status AS ENUM('dismissed', 'accepted');
 
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY, 
