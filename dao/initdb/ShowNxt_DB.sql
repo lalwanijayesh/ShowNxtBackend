@@ -103,7 +103,7 @@ CREATE TABLE profile (
 	
 	CONSTRAINT profile_fk_user
 		FOREIGN KEY (user_id)
-		REFERENCES users (id)
+		REFERENCES athlete (user_id)
 		ON DELETE RESTRICT,
 	CONSTRAINT profile_fk_position
 		FOREIGN KEY (position_id)
