@@ -1,7 +1,7 @@
 CREATE TYPE user_type AS ENUM('COACH', 'ATHLETE');
 CREATE TYPE gender_type AS ENUM('MALE', 'FEMALE', 'NONBINARY', 'OTHER');
 CREATE TYPE division_type AS ENUM('1','2','3');
-CREATE TYPE evaluation_status AS ENUM('dismissed', 'accepted');
+CREATE TYPE evaluation_status AS ENUM('DISMISS', 'ACCEPT');
 
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY, 
@@ -112,11 +112,11 @@ CREATE TABLE profile (
 );
 
 CREATE TABLE profile_measurable (
-	profile_measurable_id SERIAL PRIMARY KEY,
 	profile_id INT NOT NULL,
 	measurable_id INT NOT NULL,
 	value VARCHAR(64) NOT NULL,
-	
+
+	PRIMARY KEY (profile_id, measurable_id);
 	CONSTRAINT profile_measurable_fk_profile
 		FOREIGN KEY (profile_id)
 		REFERENCES profile (profile_id)
@@ -130,7 +130,7 @@ CREATE TABLE profile_measurable (
 CREATE TABLE profile_videos (
 	video_id SERIAL PRIMARY KEY,
     profile_id INT NOT NULL,
-	file_path VARCHAR(64) NOT NULL,
+	file_path VARCHAR(64) UNIQUE NOT NULL,
 	description VARCHAR(64),
 	upload_date TIMESTAMP NOT NULL,
 
@@ -155,11 +155,11 @@ CREATE TABLE profile_calendar (
 );
 
 CREATE TABLE coach_opening (
-	opening_id SERIAL PRIMARY KEY,
 	coach_id INT NOT NULL,
 	position_id INT NOT NULL,
 	opening_count INT NOT NULL,
-	
+
+	PRIMARY KEY (coach_id, position_id),
 	CONSTRAINT opening_fk_coach
 		FOREIGN KEY (coach_id)
 		REFERENCES coach (user_id)
@@ -171,10 +171,10 @@ CREATE TABLE coach_opening (
 );
 
 CREATE TABLE sport_offering (
-	offering_id SERIAL PRIMARY KEY,
 	school_id INT NOT NULL,
 	sport_id INT NOT NULL,
-	
+
+	PRIMARY KEY (school_id, sport_id),
 	CONSTRAINT offering_fk_school
 		FOREIGN KEY (school_id)
 		REFERENCES school (school_id)
