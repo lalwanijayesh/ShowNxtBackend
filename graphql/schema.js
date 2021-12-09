@@ -23,6 +23,8 @@ const { Application } = require("./Application/application.types");
 const { applicationResolvers } = require("./Application/application.resolvers");
 const { CoachOpening } = require("./CoachOpening/coachOpening.types");
 const { coachOpeningResolvers } = require("./CoachOpening/coachOpening.resolvers");
+const { Evaluation } = require("./Evaluation/evaluation.types");
+const { evaluationResolvers } = require("./Evaluation/evaluation.resolvers");
 
 // Note that we must have at least one field (empty in this case)
 // In this set up, we extend the root Query type within individual classes,
@@ -58,7 +60,7 @@ const resolvers = {
 
 const rootSchema = {
   typeDefs: [Query, Mutation, User, Athlete, Coach, School, Sport, Profile, ProfileMeasurable,
-             Video, Position, Application, CoachOpening],
+             Video, Position, Application, CoachOpening, Evaluation],
   resolvers: merge(
     resolvers,
     userResolvers,
@@ -71,7 +73,8 @@ const rootSchema = {
     videoResolvers,
     positionResolvers,
     applicationResolvers,
-    coachOpeningResolvers
+    coachOpeningResolvers,
+    evaluationResolvers
   ),
 };
 

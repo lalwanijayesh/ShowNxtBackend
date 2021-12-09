@@ -23,6 +23,16 @@ const getApplications = async() => {
                                                row.position_id));
 }
 
+const getApplicationsByCoach = async (coachId) => {
+    var res = await db.query("SELECT * FROM application WHERE coach_id = $1",
+                             [coachId]);
+    return res.rows.map(row => new Application(row.profile_id,
+                                               row.school_id,
+                                               row.position_id));
+}
+
+
+/*
 // TODO: need to implement "get open position in coach model object"
 const getApplicationsByCoach = async (coach, wantedPositions, status) => {
     var res;
@@ -36,9 +46,13 @@ const getApplicationsByCoach = async (coach, wantedPositions, status) => {
     return res.rows;
 }
 
+ */
+
 const getApplicationByProfile = async (profileId) => {
     var res = await db.query("SELECT * FROM application WHERE profile_id= $1", [profileId]);
-    return res.rows;
+    return res.rows.map(row => new Application(row.profile_id,
+                                               row.school_id,
+                                               row.position_id));
 }
 
 

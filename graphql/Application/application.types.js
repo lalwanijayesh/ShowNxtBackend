@@ -18,6 +18,7 @@ const Application = gql`
   extend type Query {
     applications: [Application!]!
     application(appId: ID!): Application
+    applicationsByProfile(profileId: ID!): [Application!] 
   }
 
   extend type Mutation {

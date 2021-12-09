@@ -1,4 +1,3 @@
-const applicationDao = require("../dao/application.dao");
 
 class Application {
     constructor(
