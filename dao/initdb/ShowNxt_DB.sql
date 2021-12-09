@@ -1,7 +1,7 @@
 CREATE TYPE user_type AS ENUM('COACH', 'ATHLETE');
 CREATE TYPE gender_type AS ENUM('MALE', 'FEMALE', 'NONBINARY', 'OTHER');
 CREATE TYPE division_type AS ENUM('1','2','3');
-CREATE TYPE evaluation_status AS ENUM('DISMISS', 'ACCEPT');
+CREATE TYPE evaluation_status AS ENUM('dismissed', 'accepted');
 
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY, 
@@ -174,7 +174,7 @@ CREATE TABLE sport_offering (
 	offering_id SERIAL PRIMARY KEY,
 	school_id INT NOT NULL,
 	sport_id INT NOT NULL,
-	
+
 	CONSTRAINT offering_fk_school
 		FOREIGN KEY (school_id)
 		REFERENCES school (school_id)

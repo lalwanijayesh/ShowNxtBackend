@@ -20,6 +20,7 @@ const profileResolvers = {
         profileWithMeasurables: (parent, args, context, info) => {
             return getProfileWithMeasurable(profile_id = args.profile_id).then();
         }
+
     },
     Mutation: {
         createProfile: async (parent, args, context, info) => {
