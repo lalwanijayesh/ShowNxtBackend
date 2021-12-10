@@ -116,7 +116,7 @@ CREATE TABLE profile_measurable (
 	measurable_id INT NOT NULL,
 	value VARCHAR(64) NOT NULL,
 
-	PRIMARY KEY (profile_id, measurable_id);
+	PRIMARY KEY (profile_id, measurable_id),
 	CONSTRAINT profile_measurable_fk_profile
 		FOREIGN KEY (profile_id)
 		REFERENCES profile (profile_id)
