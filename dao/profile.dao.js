@@ -4,20 +4,9 @@ const Athlete = require("../model/Athlete");
 const ProfileMeasurable = require("../model/ProfileMeasurable");
 const ProfileVideo = require("../model/ProfileVideo");
 
-const newAthlete = (row) => {
-    return new Athlete(row.user_id,
-                       row.first_name,
-                       row.last_name,
-                       row.gender,
-                       row.gpa,
-                       row.sat,
-                       row.act,
-                       row.height,
-                       row.weight);
-}
+
 
 const newProfile = (row) => {
-    console.log("new profile");
     return new Profile(row.profile_id, newAthlete(row), row.position_id)
 }
 

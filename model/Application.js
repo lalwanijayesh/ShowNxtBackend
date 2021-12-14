@@ -10,11 +10,11 @@ class Application {
         this._positionId = positionId;
     }
 
-    get profileId() {
+    get profile() {
         return this._profile;
     }
 
-    set profileId(value) {
+    set profile(value) {
         this._profile = value;
     }
 

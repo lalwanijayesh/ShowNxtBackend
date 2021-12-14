@@ -1,6 +1,16 @@
 const { db } = require("./database");
 const Athlete = require("../model/Athlete");
-
+const newAthlete = (row) => {
+  return new Athlete(row.user_id,
+                     row.first_name,
+                     row.last_name,
+                     row.gender,
+                     row.gpa,
+                     row.sat,
+                     row.act,
+                     row.height,
+                     row.weight);
+}
 const createAthlete = async (
   user_id,
   first_name,
@@ -36,4 +46,5 @@ module.exports = {
   createAthlete,
   getAthleteById,
   getAthletes,
+  newAthlete
 };

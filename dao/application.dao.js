@@ -1,10 +1,13 @@
 const { db } = require('./database');
 const Application = require("../model/Application");
-const Profile = require("../model/Profile");
 const { newProfile } = require("../dao/profile.dao");
 /**
  *
  */
+const newApplication = (row) => {
+    return new Application(newProfile(row), row.school_id, row.position_id);
+}
+
 const createApplication = async (profile_id, school_id, position_id) => {
     var res = await db.query("INSERT INTO application (profile_id, school_id, position_id)"
                              + " VALUES ($1, $2, $3) RETURNING application_id",
@@ -63,5 +66,6 @@ module.exports = {
     getApplications,
     getApplicationById,
     getApplicationsByCoach,
-    getApplicationByProfile
+    getApplicationByProfile,
+    newApplication
 }

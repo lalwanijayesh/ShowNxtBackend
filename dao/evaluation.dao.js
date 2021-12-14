@@ -1,12 +1,6 @@
 const { db } = require('./database');
 const Evaluation = require("../model/Evaluation");
-const Application = require("../model/Application");
-const {newProfile} = require("../dao/profile.dao");
-
-const newApplication = (row) => {
-    return new Application(newProfile(row), row.school_id, row.position_id);
-}
-
+const {newApplication} = require("../dao/application.dao");
 
 
 const makeEvaluation = async (application_id, coach_id, status) => {
@@ -26,15 +20,15 @@ const getEvaluations = async() => {
 }
 
 const getEvaluationsByCoach = async (coach_id) => {
-    var res = await db.query("SELECT * FROM evaluation INNER JOIN application ON "
-                             + "(application.application_id = evaluation.application_id) INNER JOIN "
-                             + "profile ON (application.profile_id = profile.profile_id) INNER JOIN "
-                             + "athlete ON (profile.user_id = athlete.user_id) WHERE coach_id = $1;",
+    var res = await db.query("SELECT * FROM evaluation "
+                             + "INNER JOIN application ON (application.application_id = evaluation.application_id) "
+                             + "INNER JOIN profile ON (application.profile_id = profile.profile_id) "
+                             + "INNER JOIN athlete ON (profile.user_id = athlete.user_id) "
+                             + "WHERE coach_id = $1;",
                              [coach_id]);
-    const ret =  res.rows.map(row => new Evaluation(newApplication(row),
+    return res.rows.map(row => new Evaluation(newApplication(row),
                                               row.coach_id,
                                               row.status));
-    return ret;
 }
 
 const getEvaluationByApplicationAndCoach = async (application_id, coach_id) => {
