@@ -1,4 +1,4 @@
-const { getPositions, getPositionById } = require("../../dao/position.dao");
+const { getPositions, getPositionById, getPositionBySport } = require("../../dao/position.dao");
 
 const positionResolvers = {
     Query: {
@@ -8,6 +8,9 @@ const positionResolvers = {
         position: (parent, args, context, info) => {
             return getPositionById((positionId = args.positionId));
         },
+        positionsBySport: (parent, args, context, info) => {
+            return getPositionBySport((sportId = args.sportId))
+        }
     },
 };
 
