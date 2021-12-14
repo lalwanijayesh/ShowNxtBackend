@@ -15,6 +15,8 @@ const applicationResolvers = {
         application: (parent, args, context, info) => {
             return getApplicationById((userId = args.appId));
         },
+
+
         /*
         applicationsByCoach: (parent, args, context, info) => {
             return getApplicationsByCoach(coach = args.coach,

@@ -21,9 +21,9 @@ const Profile = gql`
   }
 
   type Profile {
-    profileId: ID
-    userId: ID
-    positionId: ID
+    profileId: ID!
+    athlete: Athlete! 
+    positionId: ID!
     measurables: [ProfileMeasurable!] 
   }
 `;

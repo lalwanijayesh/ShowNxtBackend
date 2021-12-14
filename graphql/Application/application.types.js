@@ -12,6 +12,13 @@ applicationsByCoach(coach: Coach!, positions: [ID!]) : [Application!]!
     applicationsByAthlete(athlete: Athlete!) : [Application!]!
 
  */
+/*
+            applicationByCoach
+            - oldest unevaluated application
+            - accepted application from coach
+            - rejected applications by coach
+
+         */
 const Application = gql`
   
   # Extends the top-level root Query object with specific queries
@@ -19,6 +26,8 @@ const Application = gql`
     applications: [Application!]!
     application(appId: ID!): Application
     applicationsByProfile(profileId: ID!): [Application!] 
+    nextApplicationByCoach(coachId: ID!): Application
+    evaluatedApplicationsByCoach(coachId: ID!): [Application!] 
   }
 
   extend type Mutation {
@@ -30,10 +39,11 @@ const Application = gql`
   }
 
   type Application {
-     profileId: ID
+     profile: Profile 
      schoolId: ID 
      positionId: ID
   }
+  
 `;
 
 module.exports = {Application};

@@ -21,7 +21,7 @@ const Evaluation = gql`
   }
 
   type Evaluation {
-     applicationId: ID
+     application: Application
      coachId: ID 
      status: EvalStatus
   }
