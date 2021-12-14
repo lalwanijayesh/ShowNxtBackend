@@ -11,7 +11,7 @@ const getSports = async () => {
   const res = await db.query(
     `SELECT sport_id as "sportId",
       sport_name as name,
-      type as gender 
+      gender as gender 
       FROM sport`
   );
 
