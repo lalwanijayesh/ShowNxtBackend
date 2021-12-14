@@ -19,7 +19,6 @@ const evaluationResolvers = {
     },
     Mutation: {
         makeEvaluation: (parent, args, context, info) => {
-            console.log(args);
             return makeEvaluation(
                 args.applicationId,
                 args.coachId,

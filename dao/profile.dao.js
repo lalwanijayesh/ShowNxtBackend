@@ -2,9 +2,9 @@ const { db } = require("./database");
 const Profile = require("../model/Profile");
 const Athlete = require("../model/Athlete");
 const ProfileMeasurable = require("../model/ProfileMeasurable");
+const ProfileVideo = require("../model/ProfileVideo");
 
 const newAthlete = (row) => {
-    console.log(row);
     return new Athlete(row.user_id,
                        row.first_name,
                        row.last_name,
@@ -16,6 +16,33 @@ const newAthlete = (row) => {
                        row.weight);
 }
 
+const newProfileMeasurableList = (rows) => {
+    const created = new Set();
+    const ret = [];
+    rows.map(row => {
+        const pm = new ProfileMeasurable(row.profile_id,
+                                         row.measurable_id,
+                                         row.value);
+        if(!created.has(row.measurable_id)){
+            created.add(row.measurable_id);
+            ret.push(pm);
+        }
+    });
+    return ret;
+}
+
+const newProfileVideos = (rows) => {
+    const created = new Set();
+    const ret = [];
+    rows.map(row => {
+        const pv = new ProfileVideo(row.video_id, row.profile_id, row.file_path, row.description, row.upload_date);
+        if(!created.has(row.video_id)){
+            created.add(row.video_id);
+            ret.push(pv);
+        }
+    })
+    return ret;
+}
 
 const createProfile = async (
     userId,
@@ -42,24 +69,25 @@ const getProfilesByAthlete = async (userId) => {
 
 const getProfileByAthleteAndPosition = async (userId, positionId) => {
     const res = await db.query("SELECT * FROM profile INNER JOIN athlete ON (profile.user_id = athlete.user_id) "
-                               + "WHERE user_id = $1 AND position_id = $2" , [
+                               + "WHERE profile.user_id = $1 AND profile.position_id = $2" , [
         userId, positionId
     ]).then();
     return new Profile(res.rows[0].profile_id, newAthlete(res.rows[0]), res.rows[0].position_id);
 }
 
-const getProfileWithMeasurable = async (profileId) => {
+const getProfileById = async (profileId) => {
     const res = await db.query(
         "SELECT * FROM profile INNER JOIN athlete ON (profile.user_id = athlete.user_id) "
         + "INNER JOIN profile_measurable ON (profile.profile_id = profile_measurable.profile_id) "
+        + "INNER JOIN profile_videos ON (profile.profile_id = profile_videos.profile_id) "
         + "WHERE profile.profile_id = $1;", [
             profileId
-        ])
+        ]);
     console.log(res.rows);
+    console.log(newProfileMeasurableList(res.rows));
+    console.log(newProfileVideos(res.rows));
     return new Profile(res.rows[0].profile_id, newAthlete(res.rows[0]), res.rows[0].position_id,
-                       res.rows.map(row => new ProfileMeasurable(row.profile_id,
-                                                                 row.measurable_id,
-                                                                 row.value)));
+                       newProfileMeasurableList(res.rows), newProfileVideos(res.rows));
 }
 
 const getProfiles = async () => {
@@ -69,6 +97,7 @@ const getProfiles = async () => {
                                            row.position_id));
 }
 
+/*
 const getProfileById = async (profileId) => {
     const res = await db.query("SELECT * FROM profile INNER JOIN athlete ON (profile.user_id = athlete.user_id) "
                                + "WHERE profile_id = $1", [
@@ -78,10 +107,11 @@ const getProfileById = async (profileId) => {
     //return Profile.createFromDB(res.rows[0]);
 }
 
+ */
+
 module.exports = {
     createProfile,
     getProfileById,
-    getProfileWithMeasurable,
     getProfiles,
     getProfilesByAthlete,
     getProfileByAthleteAndPosition

@@ -20,11 +20,7 @@ const createProfileMeasurables = async (
     measurableIds,
     values
 )=> {
-   /*
-    await measurableIds.map(async function(m_id, i) {
-        await createProfileMeasurable(profileId, m_id, values[i]);
-    })
-    */
+    console.log(measurableIds);
     let count = 0;
     for (let i = 0 ; i < measurableIds.length; i++){
         await createProfileMeasurable(profileId, measurableIds[i], values[i]).then(count++);

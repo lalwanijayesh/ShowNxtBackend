@@ -8,15 +8,16 @@ const Profile = gql`
     profiles: [Profile!]
     profilesAthlete(user_id: ID!): [Profile!]
     profile(profile_id: ID!): Profile
-    profileWithMeasurables(profile_id: ID!): Profile 
   }
 
   extend type Mutation {
     createProfile(
       user_id: ID!
       position_id: ID!
-      measurable_id: [ID!]
-      value: [String!] 
+      measurable_ids: [ID!]
+      values: [String!] 
+      filepaths: [String!] 
+      descriptions: [String!] 
     ): Profile
   }
 
@@ -25,6 +26,7 @@ const Profile = gql`
     athlete: Athlete! 
     positionId: ID!
     measurables: [ProfileMeasurable!] 
+    videos: [Video!] 
   }
 `;
 

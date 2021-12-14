@@ -1,4 +1,4 @@
-const {addProfileVideo, getProfileVideos, getVideoById} = require("../../dao/video.dao");
+const {addProfileVideo, getProfileVideos, getVideoById} = require("../../dao/profile.video.dao");
 
 const videoResolvers = {
     Query: {

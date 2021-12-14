@@ -10,6 +10,17 @@ const addProfileVideo = async (profileId, filePath, description) => {
     return getVideoById(res.rows[0].video_id);
 };
 
+const createProfileVideos = async (profileId, filePaths, descriptions) => {
+    let count = 0;
+    console.log(filePaths)
+    for (let i = 0 ; i < filePaths.length; i++){
+        await addProfileVideo(profileId, filePaths[i], descriptions[i]).then(count++);
+    }
+    if(count === filePaths.length){
+        return getProfileVideos(profileId);
+    }
+}
+
 const getProfileVideos = async (profileId) => {
     const res = await db.query("SELECT * FROM profile_videos WHERE profile_id = $1", [profileId]);
     return res.rows.map(row =>
@@ -31,5 +42,6 @@ const getVideoById = async (videoId) => {
 module.exports = {
     addProfileVideo,
     getProfileVideos,
-    getVideoById
+    getVideoById,
+    createProfileVideos
 };

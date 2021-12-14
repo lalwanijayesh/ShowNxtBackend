@@ -23,7 +23,7 @@ const Video = gql`
   type Video {
     videoId: ID!
     profileId: ID!
-    filePath: ID!
+    filePath: String!
     description: String
     uploadDate: Date
   }

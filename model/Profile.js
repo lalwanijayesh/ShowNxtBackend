@@ -3,6 +3,13 @@ const transactionDao = require("../dao/transaction.dao");
 const profileMeasurableDao = require("../dao/profile.measurable.dao");
 
 class Profile {
+    get videos() {
+        return this._videos;
+    }
+
+    set videos(value) {
+        this._videos = value;
+    }
     get athlete() {
         return this._athlete;
     }
@@ -28,14 +35,15 @@ class Profile {
         profileId,
         athlete,
         positionId,
-        measurables  // list of Measurable Types
-       // videos
+        measurables,  // list of Measurable Types
+        videos
        // calendar      // list of Calendar Types
     ) {
         this._profileId = profileId;
         this._athlete = athlete;
         this._positionId = positionId;
         this._measurables = measurables;
+        this._videos = videos;
        // this._calendar = calendar;
     }
 
