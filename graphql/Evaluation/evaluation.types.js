@@ -22,8 +22,8 @@ const Evaluation = gql`
 
   type Evaluation {
      application: Application
-     coachId: ID 
-     status: EvalStatus
+     coachId: ID!
+     status: EvalStatus!
   }
 `;
 

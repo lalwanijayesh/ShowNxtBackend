@@ -16,6 +16,11 @@ const newAthlete = (row) => {
                        row.weight);
 }
 
+const newProfile = (row) => {
+    console.log("new profile");
+    return new Profile(row.profile_id, newAthlete(row), row.position_id)
+}
+
 const newProfileMeasurableList = (rows) => {
     const created = new Set();
     const ret = [];
@@ -83,9 +88,6 @@ const getProfileById = async (profileId) => {
         + "WHERE profile.profile_id = $1;", [
             profileId
         ]);
-    console.log(res.rows);
-    console.log(newProfileMeasurableList(res.rows));
-    console.log(newProfileVideos(res.rows));
     return new Profile(res.rows[0].profile_id, newAthlete(res.rows[0]), res.rows[0].position_id,
                        newProfileMeasurableList(res.rows), newProfileVideos(res.rows));
 }
@@ -97,22 +99,12 @@ const getProfiles = async () => {
                                            row.position_id));
 }
 
-/*
-const getProfileById = async (profileId) => {
-    const res = await db.query("SELECT * FROM profile INNER JOIN athlete ON (profile.user_id = athlete.user_id) "
-                               + "WHERE profile_id = $1", [
-        profileId
-    ]).then();
-    return new Profile(res.rows[0].profile_id, newAthlete(res.rows[0]), res.rows[0].position_id);
-    //return Profile.createFromDB(res.rows[0]);
-}
-
- */
-
 module.exports = {
     createProfile,
     getProfileById,
     getProfiles,
     getProfilesByAthlete,
-    getProfileByAthleteAndPosition
+    getProfileByAthleteAndPosition,
+    newAthlete,
+    newProfile
 };

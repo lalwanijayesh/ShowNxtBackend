@@ -1,21 +1,21 @@
 
 class Application {
     constructor(
-        profileId,
+        profile,
         schoolId,
         positionId
     ) {
-        this._profileId = profileId;
+        this._profile = profile;
         this._schoolId = schoolId;
         this._positionId = positionId;
     }
 
     get profileId() {
-        return this._profileId;
+        return this._profile;
     }
 
     set profileId(value) {
-        this._profileId = value;
+        this._profile = value;
     }
 
     get schoolId() {

@@ -17,11 +17,6 @@ const profileResolvers = {
         profile: (parent, args, context, info) => {
             return getProfileById((profile_id = args.profile_id)).then();
         },
-        /*
-        profileWithMeasurables: (parent, args, context, info) => {
-            return getProfileWithMeasurable(profile_id = args.profile_id).then();
-        }
-         */
     },
     Mutation: {
         createProfile: async (parent, args, context, info) => {

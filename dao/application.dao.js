@@ -1,5 +1,7 @@
 const { db } = require('./database');
 const Application = require("../model/Application");
+const Profile = require("../model/Profile");
+const { newProfile } = require("../dao/profile.dao");
 /**
  *
  */
@@ -12,13 +14,13 @@ const createApplication = async (profile_id, school_id, position_id) => {
 
 const getApplicationById = async (application_id) => {
     var res = await db.query("SELECT * FROM application WHERE application_id = $1", [application_id]);
-    return new Application(res.rows[0].profile_id,
+    return new Application(newProfile(res.rows[0].profile_id),
                            res.rows[0].school_id,
                            res.rows[0].position_id);
 }
 const getApplications = async() => {
     var res = await db.query("SELECT * FROM application");
-    return res.rows.map(row => new Application(row.profile_id,
+    return res.rows.map(row => new Application(newProfile(row.profile_id),
                                                row.school_id,
                                                row.position_id));
 }
@@ -26,7 +28,7 @@ const getApplications = async() => {
 const getApplicationsByCoach = async (coachId) => {
     var res = await db.query("SELECT * FROM application WHERE coach_id = $1",
                              [coachId]);
-    return res.rows.map(row => new Application(row.profile_id,
+    return res.rows.map(row => new Application(newProfile(row.profile_id),
                                                row.school_id,
                                                row.position_id));
 }

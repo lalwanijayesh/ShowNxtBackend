@@ -12,7 +12,6 @@ const addProfileVideo = async (profileId, filePath, description) => {
 
 const createProfileVideos = async (profileId, filePaths, descriptions) => {
     let count = 0;
-    console.log(filePaths)
     for (let i = 0 ; i < filePaths.length; i++){
         await addProfileVideo(profileId, filePaths[i], descriptions[i]).then(count++);
     }

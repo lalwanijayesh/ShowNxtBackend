@@ -1,10 +1,13 @@
 const { db } = require('./database');
 const Evaluation = require("../model/Evaluation");
 const Application = require("../model/Application");
+const {newProfile} = require("../dao/profile.dao");
 
 const newApplication = (row) => {
-    return new Application(row.profile_id, row.school_id, row.position_id);
+    return new Application(newProfile(row), row.school_id, row.position_id);
 }
+
+
 
 const makeEvaluation = async (application_id, coach_id, status) => {
     var res = await db.query("INSERT INTO evaluation (application_id, coach_id, status) "
@@ -17,7 +20,7 @@ const makeEvaluation = async (application_id, coach_id, status) => {
 const getEvaluations = async() => {
     var res = await db.query("SELECT * FROM evaluation INNER JOIN application ON "
                              + "(application.application_id = evaluation.application_id)");
-    return res.rows.map(row => new Evaluation(new Application(row),
+    return res.rows.map(row => new Evaluation(newApplication(row),
                                               row.coach_id,
                                               row.status));
 }
@@ -25,18 +28,19 @@ const getEvaluations = async() => {
 const getEvaluationsByCoach = async (coach_id) => {
     var res = await db.query("SELECT * FROM evaluation INNER JOIN application ON "
                              + "(application.application_id = evaluation.application_id) INNER JOIN "
-                             + "school ON (application.school_id = school.school_id) INNER JOIN coach "
-                             + "ON (coach.school_id = school.school_id) WHERE user_id = $1;",
+                             + "profile ON (application.profile_id = profile.profile_id) INNER JOIN "
+                             + "athlete ON (profile.user_id = athlete.user_id) WHERE coach_id = $1;",
                              [coach_id]);
-    return res.rows.map(row => new Evaluation(new Application(row),
+    const ret =  res.rows.map(row => new Evaluation(newApplication(row),
                                               row.coach_id,
                                               row.status));
+    return ret;
 }
 
 const getEvaluationByApplicationAndCoach = async (application_id, coach_id) => {
     var res = await db.query("SELECT * FROM evaluation WHERE application_id = $1 AND coach_id = $2",
                              [application_id, coach_id]);
-    return new Evaluation(new Application(res.rows[0]),
+    return new Evaluation(newApplication(res.rows[0]),
                            res.rows[0].coach_id,
                            res.rows[0].status);
 }
