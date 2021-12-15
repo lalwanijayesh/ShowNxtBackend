@@ -2,7 +2,7 @@ const {
     createApplication,
     getApplications,
     getApplicationById,
-    getApplicationsByCoach,
+    getNextApplicationByCoach,
     getApplicationByProfile
 } = require("../../dao/application.dao");
 
@@ -16,35 +16,12 @@ const applicationResolvers = {
             return getApplicationById((userId = args.appId));
         },
 
-
-        /*
-        applicationsByCoach: (parent, args, context, info) => {
-            return getApplicationsByCoach(coach = args.coach,
-                                          wantedPositions = args.positions);
-        },
-
-         */
         applicationsByProfile: (parent, args, context, info) => {
             return getApplicationByProfile(args.profileId);
+        },
+        nextApplicationByCoach: (parent, args, context, info) => {
+            return getNextApplicationByCoach(args.coachId);
         }
-        /*
-        acceptedApplicationsByCoach: (parent, args, context, info) => {
-            return getApplicationsByCoach(coach = args.coach,
-                                          wantedPositions = args.positions,
-                                          'ACCEPT');
-        },
-        rejectedApplicationsByCoach: (parent, args, context, info) => {
-            return getApplicationsByCoach(coach = args.coach,
-                                          wantedPositions = args.positions,
-                                          'REJECT');
-        },
-        unevaluatedApplicationsByCoach: (parent, args, context, info) => {
-            return getApplicationsByCoach(coach = args.coach,
-                                          wantedPositions = args.positions,
-                                          'UNEVALUATED');
-        },
-         */
-
     },
     Mutation: {
         createApplication: (parent, args, context, info) => {

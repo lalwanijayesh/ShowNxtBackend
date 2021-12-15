@@ -1,6 +1,5 @@
 const { db } = require("./database");
 const Profile = require("../model/Profile");
-const Athlete = require("../model/Athlete");
 const ProfileMeasurable = require("../model/ProfileMeasurable");
 const ProfileVideo = require("../model/ProfileVideo");
 const {newAthlete} = require("./athlete.dao");
@@ -9,6 +8,11 @@ const {newAthlete} = require("./athlete.dao");
 
 const newProfile = (row) => {
     return new Profile(row.profile_id, newAthlete(row), row.position_id)
+}
+
+const newFullProfile = (rows) => {
+    return new Profile(rows[0].profile_id, newAthlete(rows[0]), rows[0].position_id,
+                       newProfileMeasurableList(rows), newProfileVideos(rows));
 }
 
 const newProfileMeasurableList = (rows) => {
@@ -95,5 +99,6 @@ module.exports = {
     getProfiles,
     getProfilesByAthlete,
     getProfileByAthleteAndPosition,
-    newProfile
+    newProfile,
+    newFullProfile
 };
