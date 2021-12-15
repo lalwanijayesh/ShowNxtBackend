@@ -14,14 +14,14 @@ const Athlete = gql`
   # Extends the top-level root Query object with specific queries
   extend type Query {
     athletes: [Athlete!]!
-    athlete(userId: ID!): Athlete
+    athlete(user_id: ID!): Athlete
   }
 
   extend type Mutation {
     createAthlete(
-      userId: ID!
-      firstName: String!
-      lastName: String!
+      user_id: ID!
+      first_name: String!
+      last_name: String!
       gender: Gender!
       gpa: Float
       sat: Int

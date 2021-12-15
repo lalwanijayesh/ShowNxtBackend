@@ -1,18 +1,27 @@
-const coachDao = require("../dao/coach.dao");
+//const coachDao = require("../dao/coach.dao");
 
 class Coach {
+    get openPositions() {
+        return this._openPositions;
+    }
+
+    set openPositions(value) {
+        this._openPositions = value;
+    }
     constructor(
         userId,
         schoolId,
         sportId,
         firstName,
-        lastName
+        lastName,
+        openPositions
     ) {
         this._userId = userId;
         this._schoolId = schoolId;
         this._sportId = sportId;
         this._firstName = firstName;
         this._lastName = lastName;
+        this._openPositions = openPositions;
     }
 
     get userId() {
@@ -53,23 +62,6 @@ class Coach {
 
     set lastName(value) {
         this._lastName = value;
-    }
-
-    static async createCoach(userId, schoolId, sportId, firstName, lastName){
-        const response = await coachDao.createCoach(
-            userId,
-            schoolId,
-            sportId,
-            firstName,
-            lastName
-        );
-        return new Coach(
-            response.user_id,
-            response.school_id,
-            response.sport_id,
-            response.first_name,
-            response.last_name
-        );
     }
 }
 

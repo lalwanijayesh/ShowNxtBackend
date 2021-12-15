@@ -1,9 +1,20 @@
 const { db } = require("./database");
-
+const Athlete = require("../model/Athlete");
+const newAthlete = (row) => {
+  return new Athlete(row.user_id,
+                     row.first_name,
+                     row.last_name,
+                     row.gender,
+                     row.gpa,
+                     row.sat,
+                     row.act,
+                     row.height,
+                     row.weight);
+}
 const createAthlete = async (
-  userId,
-  firstName,
-  lastName,
+  user_id,
+  first_name,
+  last_name,
   gender,
   gpa,
   sat,
@@ -12,28 +23,28 @@ const createAthlete = async (
   weight
 ) => {
   await db.query(
-    "INSERT INTO athlete (user_id, first_name, last_name, gender, gpa, sat, act, height, weight) " +
-      "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
-    [userId, firstName, lastName, gender, gpa, sat, act, height, weight]
+    "INSERT INTO athlete (user_id, first_name, last_name, gender, gpa, sat, act, height, weight) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+    [user_id, first_name, last_name, gender, gpa, sat, act, height, weight]
   );
   // TODO use SQL builders above instead of passing args with $
-  return getAthleteById(userId);
+  return getAthleteById(user_id);
 };
 
-const getAthleteById = async (userId) => {
+const getAthleteById = async (user_id) => {
   const res = await db.query("SELECT * FROM athlete WHERE user_id = $1", [
-    userId,
-  ]);
-  return res.rows[0];
+    user_id,
+  ])
+  return newAthlete(res.rows[0]);
 };
 
 const getAthletes = async () => {
   const res = await db.query("SELECT * FROM athlete");
-  return res.rows;
+  return res.rows.map(row => newAthlete(row));
 };
 
 module.exports = {
   createAthlete,
   getAthleteById,
   getAthletes,
+  newAthlete
 };

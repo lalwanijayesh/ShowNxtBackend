@@ -116,7 +116,7 @@ CREATE TABLE profile_measurable (
 	profile_id INT NOT NULL,
 	measurable_id INT NOT NULL,
 	value VARCHAR(64) NOT NULL,
-	
+
 	CONSTRAINT profile_measurable_fk_profile
 		FOREIGN KEY (profile_id)
 		REFERENCES profile (profile_id)
@@ -159,7 +159,7 @@ CREATE TABLE coach_opening (
 	coach_id INT NOT NULL,
 	position_id INT NOT NULL,
 	opening_count INT NOT NULL,
-	
+
 	CONSTRAINT opening_fk_coach
 		FOREIGN KEY (coach_id)
 		REFERENCES coach (user_id)
@@ -174,7 +174,7 @@ CREATE TABLE sport_offering (
 	offering_id SERIAL PRIMARY KEY,
 	school_id INT NOT NULL,
 	sport_id INT NOT NULL,
-	
+
 	CONSTRAINT offering_fk_school
 		FOREIGN KEY (school_id)
 		REFERENCES school (school_id)
