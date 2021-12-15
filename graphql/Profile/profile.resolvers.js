@@ -21,12 +21,14 @@ const profileResolvers = {
     Mutation: {
         createProfile: async (parent, args, context, info) => {
             startTransaction().then();
-            const profile = await createProfile(
+            const profile = await createProfile (
                 args.user_id,
                 args.position_id
             ).then();
-            profile.measurables = await createProfileMeasurables(profile.profileId, args.measurable_ids, args.values);
-            profile.videos = await createProfileVideos(profile.profileId, args.filepaths, args.descriptions);
+            if (args.measurables)
+                profile.measurables = await createProfileMeasurables(profile.profileId, args.measurable_ids, args.values);
+            if (args.videos)
+                profile.videos = await createProfileVideos(profile.profileId, args.filepaths, args.descriptions);
             endTransaction().then();
 
             return profile;
