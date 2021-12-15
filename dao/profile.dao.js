@@ -3,6 +3,7 @@ const Profile = require("../model/Profile");
 const Athlete = require("../model/Athlete");
 const ProfileMeasurable = require("../model/ProfileMeasurable");
 const ProfileVideo = require("../model/ProfileVideo");
+const {newAthlete} = require("./athlete.dao");
 
 
 
@@ -94,6 +95,5 @@ module.exports = {
     getProfiles,
     getProfilesByAthlete,
     getProfileByAthleteAndPosition,
-    newAthlete,
     newProfile
 };

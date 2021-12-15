@@ -94,18 +94,6 @@ class Athlete {
   set weight(value) {
     this._weight = value;
   }
-
-  static async createFromDB(row){
-    return new Athlete(row.user_id,
-                       row.first_name,
-                       row.last_name,
-                       row.gender,
-                       row.gpa,
-                       row.sat,
-                       row.act,
-                       row.height,
-                       row.weight)
-  }
 }
 
 module.exports = Athlete;

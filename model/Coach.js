@@ -22,7 +22,6 @@ class Coach {
         this._firstName = firstName;
         this._lastName = lastName;
         this._openPositions = openPositions;
-       // this._openPositions = this.addPositions(openPositions);
     }
 
     get userId() {
@@ -64,36 +63,6 @@ class Coach {
     set lastName(value) {
         this._lastName = value;
     }
-
-    /*
-     openPositions(wantedPositions) {
-        if(wantedPositions){
-            var ret = [];
-            for(var p in wantedPositions){
-                if (p in this._openPositions){
-                    ret.push(p);
-                }
-            }
-            return ret;
-        } else{
-            return Objects.keys(this._openPositions);
-        }
-    }
-
-     */
-
-    /*
-    addPositions(positions){
-        for(var pos in positions){
-            this.updatePosition(pos, positions[pos]);
-        }
-    }
-
-    updatePosition(positionId, number) {
-       this._openPositions[positionId] = number
-    }
-
-     */
 }
 
 module.exports = Coach; 

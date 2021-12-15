@@ -1,6 +1,10 @@
 const {db} = require("./database");
 const CoachOpening = require("../model/CoachOpening");
 
+const newCoachOpening = (row) => {
+    return new CoachOpening(row.coach_id, row.position_id, row.opening_count);
+}
+
 const createCoachOpening = async (
     coach_id,
     position_id,
@@ -62,5 +66,6 @@ module.exports = {
     createCoachOpenings,
     getCoachOpenings,
     getCoachOpeningById,
-    getCoachOpeningByCoach
+    getCoachOpeningByCoach,
+    newCoachOpening
 }

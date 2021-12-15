@@ -1,4 +1,11 @@
 class School {
+  get openings() {
+    return this._openings;
+  }
+
+  set openings(value) {
+    this._openings = value;
+  }
   get schoolId() {
     return this._schoolId;
   }
@@ -26,11 +33,13 @@ class School {
   constructor(
     schoolId,
     name,
-    location
+    location,
+    openings
   ) {
     this._schoolId = schoolId;
     this._name = name;
     this._location = location;
+    this._openings = openings;
   }
 }
 

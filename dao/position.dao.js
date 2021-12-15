@@ -1,8 +1,6 @@
 const { db } = require("./database");
 const Position = require("../model/Position");
 
-
-
 const getPositionById = async (positionId) => {
     const res = await db.query("SELECT * FROM position_master WHERE position_id = $1", [
         positionId,

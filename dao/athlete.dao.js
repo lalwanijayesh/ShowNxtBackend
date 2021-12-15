@@ -34,12 +34,12 @@ const getAthleteById = async (user_id) => {
   const res = await db.query("SELECT * FROM athlete WHERE user_id = $1", [
     user_id,
   ])
-  return Athlete.createFromDB(res.rows[0]);
+  return newAthlete(res.rows[0]);
 };
 
 const getAthletes = async () => {
   const res = await db.query("SELECT * FROM athlete");
-  return res.rows.map(row => Athlete.createFromDB(row));
+  return res.rows.map(row => newAthlete(row));
 };
 
 module.exports = {
