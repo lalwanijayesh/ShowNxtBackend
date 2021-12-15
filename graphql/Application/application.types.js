@@ -38,6 +38,7 @@ const Application = gql`
   }
 
   type Application {
+     applicationId: ID
      profile: Profile 
      schoolId: ID 
      positionId: ID

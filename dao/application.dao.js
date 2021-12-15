@@ -5,7 +5,7 @@ const { newProfile, newFullProfile } = require("../dao/profile.dao");
  *
  */
 const newApplication = (row) => {
-    return new Application(newProfile(row), row.school_id, row.position_id);
+    return new Application(row.application_id, newProfile(row), row.school_id, row.position_id);
 }
 
 const createApplication = async (profile_id, school_id, position_id) => {
@@ -20,17 +20,13 @@ const getApplicationById = async (application_id) => {
                              + "INNER JOIN profile ON (application.profile_id = profile.profile_id) "
                              + "INNER JOIN athlete ON (profile.user_id = athlete.user_id) "
                              + "WHERE application_id = $1", [application_id]);
-    return new Application(newProfile(res.rows[0]),
-                           res.rows[0].school_id,
-                           res.rows[0].position_id);
+    return newApplication(res.rows[0]);
 }
 const getApplications = async() => {
     var res = await db.query("SELECT * FROM application "
                              + "INNER JOIN profile ON (application.profile_id = profile.profile_id) "
                              + "INNER JOIN athlete ON (profile.user_id = athlete.user_id)");
-    return res.rows.map(row => new Application(newProfile(row),
-                                               row.school_id,
-                                               row.position_id));
+    return res.rows.map(row => newApplication(row));
 }
 
 const getNextApplicationByCoach = async (coachId) => {
@@ -46,17 +42,15 @@ const getNextApplicationByCoach = async (coachId) => {
                              + "application_id NOT IN "
                              + "(SELECT application_id FROM evaluation WHERE evaluation.coach_id = $1));",
                              [coachId]);
-    console.log(res.rows);
-    return new Application(newFullProfile(res.rows),
+    return new Application(res.rows[0].application_id,
+                           newFullProfile(res.rows),
                            res.rows[0].school_id,
                            res.rows[0].position_id);
 }
 
 const getApplicationByProfile = async (profileId) => {
     var res = await db.query("SELECT * FROM application WHERE profile_id= $1", [profileId]);
-    return res.rows.map(row => new Application(row.profile_id,
-                                               row.school_id,
-                                               row.position_id));
+    return res.rows.map(row => newApplication(row));
 }
 
 

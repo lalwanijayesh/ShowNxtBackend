@@ -1,6 +1,14 @@
 
 class Application {
+    get applicationId() {
+        return this._applicationId;
+    }
+
+    set applicationId(value) {
+        this._applicationId = value;
+    }
     constructor(
+        applicationId,
         profile,
         schoolId,
         positionId
@@ -8,6 +16,7 @@ class Application {
         this._profile = profile;
         this._schoolId = schoolId;
         this._positionId = positionId;
+        this._applicationId = applicationId;
     }
 
     get profile() {
