@@ -1,7 +1,7 @@
 const { getCoaches, getCoachById, createCoach, getCoachWithOpenings} = require("../../dao/coach.dao");
 const { startTransaction, endTransaction } = require("../../dao/transaction.dao");
 const { createCoachOpenings, getCoachOpeningByCoach} = require("../../dao/coach.opening.dao");
-const {getEvaluationsByCoach} = require("../../dao/evaluation.dao");
+const {getEvaluationsByCoach, storeEvaluation} = require("../../dao/evaluation.dao");
 const {getNextApplicationByCoach} = require("../../dao/application.dao");
 
 const coachResolvers = {
@@ -28,6 +28,12 @@ const coachResolvers = {
       endTransaction().then();
       return coach;
     },
+      acceptApplication: async (parent, args, context, info) => {
+        return storeEvaluation(args.applicationId, args.userId, "ACCEPT");
+      },
+      rejectApplication: async (parent, args, context, info) => {
+        return storeEvaluation(args.applicationId, args.userId, "REJECT");
+      }
   },
 
   Coach: {

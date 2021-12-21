@@ -20,6 +20,14 @@ const Coach = gql`
       openPositionIds: [ID!] 
       openPositionValues: [Int!] 
     ): Coach
+    acceptApplication(
+        applicationId: ID! 
+        userId: ID! 
+    ): Evaluation 
+    rejectApplication(
+        applicationId: ID! 
+        userId: ID! 
+    ): Evaluation 
   }
 
   type Coach {
