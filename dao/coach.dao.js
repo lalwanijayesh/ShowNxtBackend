@@ -1,6 +1,5 @@
 const {db} = require("./database");
 const Coach = require("../model/Coach");
-const CoachOpening = require("../model/CoachOpening");
 
 const createCoach = async (userId, schoolId, sportId, firstName, lastName) => {
     await db.query(
@@ -35,20 +34,8 @@ const getCoaches = async () => {
     ));
 };
 
-const getCoachWithOpenings = async (userId) => {
-    const res = await db.query(" SELECT * FROM coach INNER JOIN coach_opening ON"
-                               + " (coach.user_id = coach_opening.coach_id) WHERE coach.user_id = $1",
-                               [
-                                   userId
-                               ]);
-    return new Coach(res.rows[0].user_id, res.rows[0].school_id, res.rows[0].sport_id, res.rows[0].first_name,
-                     res.rows[0].last_name,
-                     res.rows.map(row => new CoachOpening(res.rows[0].user_id, row.position_id, row.opening_count)));
-}
-
 module.exports = {
     createCoach,
     getCoachById,
-    getCoaches,
-    getCoachWithOpenings
+    getCoaches
 };

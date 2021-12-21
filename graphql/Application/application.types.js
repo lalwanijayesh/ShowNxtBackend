@@ -26,7 +26,6 @@ const Application = gql`
     applications: [Application!]!
     application(appId: ID!): Application
     applicationsByProfile(profileId: ID!): [Application!] 
-    nextApplicationByCoach(coachId: ID!): Application
   }
 
   extend type Mutation {

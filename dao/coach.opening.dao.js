@@ -1,7 +1,7 @@
 const {db} = require("./database");
 const CoachOpening = require("../model/CoachOpening");
 
-const newCoachOpening = (row) => {
+const makeCoachOpening = (row) => {
     return new CoachOpening(row.coach_id, row.position_id, row.opening_count);
 }
 
@@ -34,30 +34,24 @@ const createCoachOpenings = async (
 }
 
 const getCoachOpenings = async () => {
-    var res = await db.query("SELECT * FROM coach_opening");
-    return res.rows.map(row => new CoachOpening(row.coach_id,
-                                                row.position_id,
-                                                row.opening_count));
+    var res = await db.query("SELECT coach_id, position_id, opening_count FROM coach_opening");
+    return res.rows.map(row => makeCoachOpening(row));
 }
 
 const getCoachOpeningById = async (opening_id) => {
     var res = await db.query(
-        "SELECT * FROM coach_opening WHERE opening_id = $1",
+        "SELECT coach_id, position_id, opening_count FROM coach_opening WHERE opening_id = $1",
         [opening_id]
     )
-    return new CoachOpening(res.rows[0].coach_id,
-                            res.rows[0].position_id,
-                            res.rows[0].opening_count);
+    return makeCoachOpening(res.rows[0]);
 }
 
 const getCoachOpeningByCoach = async (coach_id) => {
     var res = await db.query(
-        "SELECT * FROM coach_opening WHERE coach_id = $1",
+        "SELECT coach_id, position_id, opening_count FROM coach_opening WHERE coach_id = $1",
         [coach_id]
     )
-    return res.rows.map(row => new CoachOpening(row.coach_id,
-                                                row.position_id,
-                                                row.opening_count));
+    return res.rows.map(row => makeCoachOpening(row));
 }
 
 const getCoachOpeningBySchool = async (school_id) => {
@@ -67,7 +61,7 @@ const getCoachOpeningBySchool = async (school_id) => {
         + "WHERE school_id = $1",
         [school_id]
     );
-    return res.rows.map(row => newCoachOpening(row));
+    return res.rows.map(row => makeCoachOpening(row));
 }
 
 
@@ -77,6 +71,5 @@ module.exports = {
     getCoachOpenings,
     getCoachOpeningById,
     getCoachOpeningByCoach,
-    getCoachOpeningBySchool,
-    newCoachOpening
+    getCoachOpeningBySchool
 }

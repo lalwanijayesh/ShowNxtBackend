@@ -1,6 +1,8 @@
 const { getCoaches, getCoachById, createCoach, getCoachWithOpenings} = require("../../dao/coach.dao");
 const { startTransaction, endTransaction } = require("../../dao/transaction.dao");
-const { createCoachOpenings } = require("../../dao/coach.opening.dao");
+const { createCoachOpenings, getCoachOpeningByCoach} = require("../../dao/coach.opening.dao");
+const {getEvaluationsByCoach} = require("../../dao/evaluation.dao");
+const {getNextApplicationByCoach} = require("../../dao/application.dao");
 
 const coachResolvers = {
   Query: {
@@ -10,9 +12,6 @@ const coachResolvers = {
     coach: (parent, args, context, info) => {
       return getCoachById((userId = args.userId));
     },
-    coachWithOpenPositions: (parent, args, context, info) => {
-      return getCoachWithOpenings((userId = args.userId));
-    }
   },
   Mutation: {
     createCoach: async (parent, args, context, info) => {
@@ -25,12 +24,27 @@ const coachResolvers = {
         args.lastName,
       );
 
-      console.log(coach);
       coach.openPositions = await createCoachOpenings(coach.userId, args.openPositionIds, args.openPositionValues);
       endTransaction().then();
       return coach;
     },
   },
+
+  Coach: {
+      async openPositions(parent) {
+          return getCoachOpeningByCoach(parent.userId);
+      },
+      async acceptedEvaluations(parent) {
+          return getEvaluationsByCoach(parent.userId, 'ACCEPT');
+      },
+      async dismissedEvaluations(parent) {
+          return getEvaluationsByCoach(parent.userId, 'DISMISS');
+
+      },
+      async nextApplication(parent) {
+          return getNextApplicationByCoach(parent.userId);
+      }
+  }
 };
 
 module.exports = { coachResolvers };

@@ -8,7 +8,6 @@ const Evaluation = gql`
   # Extends the top-level root Query object with specific queries
   extend type Query {
     evaluations: [Evaluation!]!
-    evaluationsByCoach(coachId: ID!): [Evaluation!]
     evaluation(applicationId: ID!, coachId: ID!): Evaluation
   }
 
