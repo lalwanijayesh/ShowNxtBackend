@@ -12,7 +12,8 @@ const createCoachOpening = async (
 ) => {
     var res = await db.query(
         "INSERT INTO coach_opening (coach_id, position_id, opening_count) " +
-        "VALUES ($1, $2, $3) ON CONFLICT (opening_id) RETURNING opening_id",
+        "VALUES ($1, $2, $3) ON CONFLICT (opening_id) DO UPDATE SET opening_count = $3 "
+        + "RETURNING opening_id",
         [coach_id, position_id, opening_count]
     );
     // TODO use SQL builders above instead of passing args with $
