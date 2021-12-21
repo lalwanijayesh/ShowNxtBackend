@@ -19,7 +19,7 @@ const Sport = gql`
 
   type Sport {
     sportId: ID
-    name: String
+    sportName: String
     gender: Gender
   }
 `;

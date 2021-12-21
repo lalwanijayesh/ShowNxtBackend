@@ -1,4 +1,3 @@
-// const School = require("../../model/School");
 const { getSchools, getSchoolById } = require("../../dao/school.dao");
 
 const schoolResolvers = {

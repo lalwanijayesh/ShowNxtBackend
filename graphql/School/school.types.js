@@ -15,6 +15,7 @@ const School = gql`
     schoolId: ID
     name: String
     location: String
+    openings: [CoachOpening!] 
   }
 `;
 

@@ -1,12 +1,17 @@
-// const Sport = require("../../model/Sport");
-const { getPositions } = require("../../dao/position.dao");
+const { getPositions, getPositionById, getPositionBySport } = require("../../dao/position.dao");
 
 const positionResolvers = {
-  Query: {
-    positions: (parent, args, context, info) => {
-      return getPositions((sportId = args.sportId));
+    Query: {
+        positions: () => {
+            return getPositions();
+        },
+        position: (parent, args, context, info) => {
+            return getPositionById((positionId = args.positionId));
+        },
+        positionsBySport: (parent, args, context, info) => {
+            return getPositionBySport((sportId = args.sportId))
+        }
     },
-  },
 };
 
 module.exports = { positionResolvers };
