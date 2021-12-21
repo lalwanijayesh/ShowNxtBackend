@@ -175,6 +175,27 @@ VALUES (2, 4, 1, 'Sheldon', 'Cooper'),
        (11, 1, 4, 'Fred', 'Flintstone'),
        (13, 1, 2, 'Sarah', 'Connor');
 
+INSERT INTO coach_opening (coach_id, position_id, opening_count)
+VALUES (2, 1, 3),
+       (2, 2, 2),
+       (2, 3, 1),
+       (5, 1, 6),
+       (5, 4, 5),
+       (5, 2, 2),
+       (1, 15, 7),
+       (1, 16, 3),
+       (7, 8, 1),
+       (7, 9, 3),
+       (3, 4, 5),
+       (3, 5, 2),
+       (3, 6, 1),
+       (8, 8, 4),
+       (8, 9, 3),
+       (11, 4, 3),
+       (11, 2, 2),
+       (13, 23, 4),
+       (13, 22, 1);
+
 INSERT INTO profile (profile_id, user_id, position_id)
 VALUES (1, 4, 7),
 	   (2, 9, 15),
