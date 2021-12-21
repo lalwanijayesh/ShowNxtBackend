@@ -4,6 +4,7 @@ const {
     getCoachOpeningByCoach,
     getCoachOpeningById
 } = require("../../dao/coach.opening.dao");
+const {getPositionById} = require("../../dao/position.dao");
 
 const coachOpeningResolvers = {
     Query: {
@@ -26,6 +27,11 @@ const coachOpeningResolvers = {
             );
         },
     },
+    CoachOpening: {
+        async position(parent) {
+            return getPositionById(parent.positionId);
+        }
+    }
 };
 
 module.exports = { coachOpeningResolvers };
