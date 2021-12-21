@@ -21,7 +21,7 @@ const CoachOpening = gql`
 
   type CoachOpening {
     coachId: ID
-    positionId: ID 
+    position: Position  
     openingCount: Int
   }
 `;
