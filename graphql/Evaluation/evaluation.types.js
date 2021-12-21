@@ -1,8 +1,8 @@
 const {gql} = require("apollo-server");
 const Evaluation = gql`
   enum EvalStatus {
-    dismissed
-    accepted
+    DISMISS
+    ACCEPT 
   }
   
   # Extends the top-level root Query object with specific queries

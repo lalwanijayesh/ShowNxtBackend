@@ -4,6 +4,7 @@ const {
     getEvaluationsByCoach,
     getEvaluations
 } = require("../../dao/evaluation.dao");
+const {getApplicationById} = require("../../dao/application.dao");
 
 const evaluationResolvers = {
     Query: {
@@ -26,6 +27,11 @@ const evaluationResolvers = {
             );
         },
     },
+    Evaluation: {
+        async application(parent) {
+            return getApplicationById(parent.applicationId);
+        }
+    }
 };
 
 module.exports = { evaluationResolvers };

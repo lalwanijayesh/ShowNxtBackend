@@ -4,8 +4,8 @@ const { newProfile, newFullProfile } = require("../dao/profile.dao");
 /**
  *
  */
-const newApplication = (row) => {
-    return new Application(row.application_id, newProfile(row), row.school_id, row.position_id);
+const makeApplication = (row) => {
+    return new Application(row.application_id, row.profile_id, row.school_id, row.position_id);
 }
 
 const createApplication = async (profile_id, school_id, position_id) => {
@@ -20,13 +20,13 @@ const getApplicationById = async (application_id) => {
                              + "INNER JOIN profile ON (application.profile_id = profile.profile_id) "
                              + "INNER JOIN athlete ON (profile.user_id = athlete.user_id) "
                              + "WHERE application_id = $1", [application_id]);
-    return newApplication(res.rows[0]);
+    return makeApplication(res.rows[0]);
 }
 const getApplications = async() => {
     var res = await db.query("SELECT * FROM application "
                              + "INNER JOIN profile ON (application.profile_id = profile.profile_id) "
                              + "INNER JOIN athlete ON (profile.user_id = athlete.user_id)");
-    return res.rows.map(row => newApplication(row));
+    return res.rows.map(row => makeApplication(row));
 }
 
 const getNextApplicationByCoach = async (coachId) => {
@@ -50,7 +50,7 @@ const getNextApplicationByCoach = async (coachId) => {
 
 const getApplicationByProfile = async (profileId) => {
     var res = await db.query("SELECT * FROM application WHERE profile_id= $1", [profileId]);
-    return res.rows.map(row => newApplication(row));
+    return res.rows.map(row => makeApplication(row));
 }
 
 
@@ -60,5 +60,5 @@ module.exports = {
     getApplicationById,
     getNextApplicationByCoach,
     getApplicationByProfile,
-    newApplication
+    newApplication: makeApplication
 }

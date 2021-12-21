@@ -5,6 +5,7 @@ const {
     getNextApplicationByCoach,
     getApplicationByProfile
 } = require("../../dao/application.dao");
+const {getProfileById} = require("../../dao/profile.dao");
 
 const applicationResolvers = {
 
@@ -32,6 +33,11 @@ const applicationResolvers = {
             );
         },
     },
+    Application: {
+        async profile(parent){
+            return getProfileById(parent.profileId);
+        }
+    }
 };
 
 module.exports = {applicationResolvers};

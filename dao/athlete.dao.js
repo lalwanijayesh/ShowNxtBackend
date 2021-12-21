@@ -1,6 +1,6 @@
 const { db } = require("./database");
 const Athlete = require("../model/Athlete");
-const newAthlete = (row) => {
+const makeAthlete = (row) => {
   return new Athlete(row.user_id,
                      row.first_name,
                      row.last_name,
@@ -31,20 +31,22 @@ const createAthlete = async (
 };
 
 const getAthleteById = async (user_id) => {
-  const res = await db.query("SELECT * FROM athlete WHERE user_id = $1", [
+  const res = await db.query("SELECT user_id, first_name, last_name, "
+                             + "gender, gpa, sat, act, height, weight "
+                             + "FROM athlete WHERE user_id = $1", [
     user_id,
-  ])
-  return newAthlete(res.rows[0]);
+  ]);
+  return makeAthlete(res.rows[0]);
 };
 
 const getAthletes = async () => {
   const res = await db.query("SELECT * FROM athlete");
-  return res.rows.map(row => newAthlete(row));
+  return res.rows.map(row => makeAthlete(row));
 };
 
 module.exports = {
   createAthlete,
   getAthleteById,
   getAthletes,
-  newAthlete
+  newAthlete: makeAthlete
 };
