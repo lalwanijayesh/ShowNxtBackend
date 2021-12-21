@@ -222,16 +222,16 @@ values
 
 insert into evaluation (application_id, coach_id, status)
 values
-(5, 1, 'accepted'),
-(9, 1, 'accepted'),
-(13, 1, 'dismissed'),
-(6, 2, 'dismissed'),
-(10, 2, 'dismissed'),
-(14, 2, 'accepted'),
-(7, 3, 'accepted'),
-(11, 3, 'dismissed'),
-(4, 7, 'dismissed'),
-(8, 7, 'dismissed'),
-(12, 7, 'accepted'),
-(3, 8, 'dismissed'),
-(1, 13, 'accepted');
+(5, 1, 'ACCEPT'),
+(9, 1, 'ACCEPT'),
+(13, 1, 'DISMISS'),
+(6, 2, 'DISMISS'),
+(10, 2, 'DISMISS'),
+(14, 2, 'ACCEPT'),
+(7, 3, 'ACCEPT'),
+(11, 3, 'DISMISS'),
+(4, 7, 'DISMISS'),
+(8, 7, 'DISMISS'),
+(12, 7, 'ACCEPT'),
+(3, 8, 'DISMISS'),
+(1, 13, 'ACCEPT');
