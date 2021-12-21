@@ -174,3 +174,64 @@ VALUES (2, 4, 1, 'Sheldon', 'Cooper'),
        (8, 1, 3, 'Clark', 'Kent'),
        (11, 1, 4, 'Fred', 'Flintstone'),
        (13, 1, 2, 'Sarah', 'Connor');
+
+INSERT INTO coach_opening (coach_id, position_id, opening_count)
+VALUES (2, 1, 3),
+       (2, 2, 2),
+       (2, 3, 1),
+       (5, 1, 6),
+       (5, 4, 5),
+       (5, 2, 2),
+       (1, 15, 7),
+       (1, 16, 3),
+       (7, 8, 1),
+       (7, 9, 3),
+       (3, 4, 5),
+       (3, 5, 2),
+       (3, 6, 1),
+       (8, 8, 4),
+       (8, 9, 3),
+       (11, 4, 3),
+       (11, 2, 2),
+       (13, 23, 4),
+       (13, 22, 1);
+
+INSERT INTO profile (profile_id, user_id, position_id)
+VALUES (1, 4, 7),
+	   (2, 9, 15),
+	   (3, 9, 17),
+	   (4, 10, 1),
+	   (5, 4, 3);
+
+insert into application (application_id, profile_id, school_id, position_id)
+values
+(1, 1, 1, 7),
+(2, 1, 2, 7),
+(3, 2, 1, 15),
+(4, 2, 2, 15),
+(5, 2, 3, 15),
+(6, 2, 4, 15),
+(7, 4, 1, 1),
+(8, 4, 2, 1),
+(9, 4, 3, 1),
+(10, 4, 4, 1),
+(11, 5, 1, 3),
+(12, 5, 2, 3),
+(13, 5, 3, 3),
+(14, 5, 4, 3);
+
+insert into evaluation (application_id, coach_id, status)
+values
+(5, 1, 'ACCEPT'),
+(9, 1, 'ACCEPT'),
+(13, 1, 'DISMISS'),
+(6, 2, 'DISMISS'),
+(10, 2, 'DISMISS'),
+(14, 2, 'ACCEPT'),
+(7, 3, 'ACCEPT'),
+(11, 3, 'DISMISS'),
+(4, 7, 'DISMISS'),
+(8, 7, 'DISMISS'),
+(12, 7, 'ACCEPT'),
+(3, 8, 'DISMISS'),
+(1, 13, 'ACCEPT');
