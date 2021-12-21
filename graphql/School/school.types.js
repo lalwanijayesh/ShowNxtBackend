@@ -12,10 +12,11 @@ const School = gql`
   }
 
   type School {
-    schoolId: ID
-    name: String
-    location: String
-    openings: [CoachOpening!] 
+    schoolId: ID!
+    name: String!
+    location: String!
+    openings: [CoachOpening!]! 
+    offerings: [SportOffering!]! 
   }
 `;
 
