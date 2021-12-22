@@ -13,9 +13,6 @@ const coachOpeningResolvers = {
         },
         coachOpeningById: (parent, args, context, info) => {
             return getCoachOpeningById(args.openingId);
-        },
-        coachOpeningsByCoachId: (parent, args, context, info) => {
-            return getCoachOpeningByCoach(args.coachId);
         }
     },
     Mutation: {

@@ -8,7 +8,6 @@ const CoachOpening = gql`
   extend type Query {
     coachOpenings: [CoachOpening!]
     coachOpeningById(openingId: ID!): CoachOpening
-    coachOpeningsByCoachId(coachId: ID!): [CoachOpening!]
   }
   
   extend type Mutation {
