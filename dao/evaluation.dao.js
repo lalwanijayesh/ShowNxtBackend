@@ -15,11 +15,6 @@ const storeEvaluation = async (application_id, coach_id, status) => {
     return getEvaluationByApplicationAndCoach(res.rows[0].application_id, res.rows[0].coach_id);
 }
 
-const getEvaluations = async() => {
-    var res = await db.query("SELECT application_id, coach_id, status FROM evaluation");
-    return res.rows.map(row => makeEvaluation(row));
-}
-
 const getEvaluationsByCoach = async(coach_id, status) => {
     var res = await db.query(`SELECT application_id, coach_id, status FROM evaluation 
                                     WHERE coach_id = $1 AND status = $2`,
@@ -38,5 +33,4 @@ module.exports = {
     storeEvaluation,
     getEvaluationByApplicationAndCoach,
     getEvaluationsByCoach,
-    getEvaluations
 }

@@ -11,9 +11,6 @@ const {getAthleteById} = require("../../dao/athlete.dao");
 
 const profileResolvers = {
     Query: {
-        profiles: () => {
-            return getProfiles();
-        },
         athleteProfiles: (parent, args, context, info) => {
             return getProfilesByAthlete((user_id = args.user_id)).then();
         },

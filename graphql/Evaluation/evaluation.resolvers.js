@@ -7,9 +7,6 @@ const {getApplicationById} = require("../../dao/application.dao");
 
 const evaluationResolvers = {
     Query: {
-        evaluations: (parent, args, context, info ) => {
-            return getEvaluations();
-        },
         evaluation: (parent, args, context, info) => {
             return getEvaluationByApplicationAndCoach(args.applicationId, args.coachId);
         }

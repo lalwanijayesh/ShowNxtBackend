@@ -5,7 +5,6 @@ const { gql } = require("apollo-server");
 const Profile = gql`
   # Extends the top-level root Query object with specific queries
   extend type Query {
-    profiles: [Profile!]
     athleteProfiles(user_id: ID!): [Profile!]
     profile(profile_id: ID!): Profile
   }

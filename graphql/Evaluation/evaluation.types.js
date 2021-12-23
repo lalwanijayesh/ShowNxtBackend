@@ -7,8 +7,7 @@ const Evaluation = gql`
   
   # Extends the top-level root Query object with specific queries
   extend type Query {
-    evaluations: [Evaluation!]!
-    evaluation(applicationId: ID!, coachId: ID!): Evaluation
+    evaluation(applicationId: ID!, coachId: ID!): Evaluation!
   }
 
   extend type Mutation {
@@ -16,11 +15,11 @@ const Evaluation = gql`
       applicationId: ID!
       coachId: ID! 
       status: EvalStatus!
-    ): Evaluation
+    ): Evaluation!
   }
 
   type Evaluation {
-     application: Application
+     application: Application!
      coachId: ID!
      status: EvalStatus!
   }
