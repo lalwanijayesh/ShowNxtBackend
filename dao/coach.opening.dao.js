@@ -1,7 +1,7 @@
 const {db} = require("./database");
 const CoachOpening = require("../model/CoachOpening");
 
-const newCoachOpening = (row) => {
+const makeCoachOpening = (row) => {
     return new CoachOpening(row.coach_id, row.position_id, row.opening_count);
 }
 
@@ -11,13 +11,15 @@ const createCoachOpening = async (
     opening_count
 ) => {
     var res = await db.query(
-        "INSERT INTO coach_opening (coach_id, position_id, opening_count) " +
-        "VALUES ($1, $2, $3) ON CONFLICT (opening_id) DO UPDATE SET opening_count = $3 "
-        + "RETURNING opening_id",
+        "INSERT INTO coach_opening "
+        + "(coach_id, position_id, opening_count) "
+        + "VALUES ($1, $2, $3) ON CONFLICT (opening_id) "
+        + "DO UPDATE SET opening_count = $3 "
+        + "RETURNING coach_id, position_id",
         [coach_id, position_id, opening_count]
     );
     // TODO use SQL builders above instead of passing args with $
-    return getCoachOpeningById(res.rows[0].opening_id);
+    return getCoachOpeningById(res.rows[0].coach_id, res.rows[0].position_id);
 };
 
 const createCoachOpenings = async (
@@ -34,50 +36,42 @@ const createCoachOpenings = async (
     }
 }
 
-const getCoachOpenings = async () => {
-    var res = await db.query("SELECT * FROM coach_opening");
-    return res.rows.map(row => new CoachOpening(row.coach_id,
-                                                row.position_id,
-                                                row.opening_count));
-}
-
-const getCoachOpeningById = async (opening_id) => {
+const getCoachOpeningById = async (coach_id, position_id) => {
     var res = await db.query(
-        "SELECT * FROM coach_opening WHERE opening_id = $1",
-        [opening_id]
+        "SELECT coach_id, position_id, opening_count FROM coach_opening "
+        + "WHERE coach_id = $1 AND position_id = $2",
+        [coach_id, position_id]
     )
-    return new CoachOpening(res.rows[0].coach_id,
-                            res.rows[0].position_id,
-                            res.rows[0].opening_count);
+    return makeCoachOpening(res.rows[0]);
 }
 
+// Selects all of a coach's position openings
 const getCoachOpeningByCoach = async (coach_id) => {
     var res = await db.query(
-        "SELECT * FROM coach_opening WHERE coach_id = $1",
+        "SELECT coach_id, position_id, opening_count FROM coach_opening "
+        + "WHERE coach_id = $1",
         [coach_id]
     )
-    return res.rows.map(row => new CoachOpening(row.coach_id,
-                                                row.position_id,
-                                                row.opening_count));
+    return res.rows.map(row => makeCoachOpening(row));
 }
 
+// Selects all the unique open positions at a school
 const getCoachOpeningBySchool = async (school_id) => {
     var res = await db.query(
-        "SELECT DISTINCT ON (position_id) coach_id, position_id, opening_count FROM coach_opening "
+        "SELECT DISTINCT ON (position_id) "
+        + "coach_id, position_id, opening_count FROM coach_opening "
         + "INNER JOIN coach ON (coach_opening.coach_id = coach.user_id) "
         + "WHERE school_id = $1",
         [school_id]
     );
-    return res.rows.map(row => newCoachOpening(row));
+    return res.rows.map(row => makeCoachOpening(row));
 }
 
 
 module.exports = {
     createCoachOpening,
     createCoachOpenings,
-    getCoachOpenings,
     getCoachOpeningById,
     getCoachOpeningByCoach,
     getCoachOpeningBySchool,
-    newCoachOpening
 }

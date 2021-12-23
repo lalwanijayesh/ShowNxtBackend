@@ -1,6 +1,6 @@
 const { getSchools, getSchoolById } = require("../../dao/school.dao");
 const {getCoachOpeningBySchool} = require("../../dao/coach.opening.dao");
-const {getSportOfferingsBySchool} = require("../../dao/sport.offering.dao");
+const {getSportsBySchool} = require("../../dao/sport.dao");
 const schoolResolvers = {
   Query: {
     schools: () => {
@@ -24,7 +24,7 @@ const schoolResolvers = {
       return await getCoachOpeningBySchool(parent.schoolId).then();
     },
     async offerings(parent) {
-      return await getSportOfferingsBySchool(parent.schoolId).then();
+      return await getSportsBySchool(parent.schoolId).then();
     }
   }
 };

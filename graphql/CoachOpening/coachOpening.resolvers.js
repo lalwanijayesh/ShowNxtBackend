@@ -1,6 +1,5 @@
 const {
     createCoachOpening,
-    getCoachOpenings,
     getCoachOpeningByCoach,
     getCoachOpeningById
 } = require("../../dao/coach.opening.dao");
@@ -8,9 +7,6 @@ const {getPositionById} = require("../../dao/position.dao");
 
 const coachOpeningResolvers = {
     Query: {
-        coachOpenings: (parent, args, context, info ) => {
-            return getCoachOpenings();
-        },
         coachOpeningById: (parent, args, context, info) => {
             return getCoachOpeningById(args.openingId);
         },

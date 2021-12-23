@@ -1,21 +1,33 @@
 const { db } = require("./database");
 const Sport = require("../model/Sport");
 
+const makeSport = (row) => {
+    return new Sport(row.sport_id, row.sport_name, row.gender);
+}
+
 const getSportById = async (sportId) => {
-    const res = await db.query("SELECT * FROM sport WHERE sport_id = $1", [
+    const res = await db.query("SELECT sport_id, sport_name, gender FROM sport "
+                               + "WHERE sport_id = $1", [
         sportId,
     ]);
-    return new Sport(res.rows[0].sport_id,
-                     res.rows[0].sport_name,
-                     res.rows[0].gender);
+    return makeSport(res.rows[0]);
 };
 
 const getSports = async () => {
-    const res = await db.query("SELECT * FROM sport");
-    return res.rows.map(row => new Sport(row.sport_id, row.sport_name, row.gender));
+    const res = await db.query("SELECT sport_id, sport_name, gender FROM sport");
+    return res.rows.map(row => makeSport(row));
 };
+
+const getSportsBySchool = async(schoolId) => {
+    const res = await db.query("SELECT sport_id, sport_name, gender FROM sport "
+                               + "INNER JOIN sport_offering ON (sport.sport_id = sport_offering.sport_id) "
+                               + "HERE school_id = $1",
+                               [schoolId]);
+    return res.rows.map(row => makeSport(row));
+}
 
 module.exports = {
     getSportById,
-    getSports
+    getSports,
+    getSportsBySchool
 };
