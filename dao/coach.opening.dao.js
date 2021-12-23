@@ -13,7 +13,8 @@ const createCoachOpening = async (
     var res = await db.query(
         "INSERT INTO coach_opening "
         + "(coach_id, position_id, opening_count) "
-        + "VALUES ($1, $2, $3) ON CONFLICT (coach_id, position_id) "
+        + "VALUES ($1, $2, $3) "
+        + "ON CONFLICT (coach_id, position_id) "
         + "DO UPDATE SET opening_count = $3 "
         + "RETURNING coach_id, position_id",
         [coach_id, position_id, opening_count]
