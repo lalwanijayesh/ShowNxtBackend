@@ -79,7 +79,7 @@ const rootSchema = {
     coachOpeningResolvers,
     evaluationResolvers,
     measurableResolvers,
-    positionMeasurableResolvers
+    positionMeasurableResolvers,
   ),
 };
 

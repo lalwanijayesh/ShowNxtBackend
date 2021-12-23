@@ -1,4 +1,11 @@
 class School {
+  get offerings() {
+    return this._offerings;
+  }
+
+  set offerings(value) {
+    this._offerings = value;
+  }
   get openings() {
     return this._openings;
   }
@@ -6,6 +13,8 @@ class School {
   set openings(value) {
     this._openings = value;
   }
+
+
   get schoolId() {
     return this._schoolId;
   }
@@ -34,12 +43,14 @@ class School {
     schoolId,
     name,
     location,
-    openings
+    openings,
+    offerings
   ) {
     this._schoolId = schoolId;
     this._name = name;
     this._location = location;
     this._openings = openings;
+    this._offerings = offerings;
   }
 }
 

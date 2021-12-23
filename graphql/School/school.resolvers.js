@@ -1,5 +1,6 @@
 const { getSchools, getSchoolById } = require("../../dao/school.dao");
-
+const {getCoachOpeningBySchool} = require("../../dao/coach.opening.dao");
+const {getSportsBySchool} = require("../../dao/sport.dao");
 const schoolResolvers = {
   Query: {
     schools: () => {
@@ -18,6 +19,14 @@ const schoolResolvers = {
       return getSchoolById((schoolId = args.schoolId));
     },
   },
+  School: {
+    async openings(parent) {
+      return await getCoachOpeningBySchool(parent.schoolId);
+    },
+    async offerings(parent) {
+      return await getSportsBySchool(parent.schoolId);
+    }
+  }
 };
 
 module.exports = { schoolResolvers };
