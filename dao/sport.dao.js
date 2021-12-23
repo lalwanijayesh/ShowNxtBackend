@@ -19,9 +19,10 @@ const getSports = async () => {
 };
 
 const getSportsBySchool = async(schoolId) => {
-    const res = await db.query("SELECT sport_id, sport_name, gender FROM sport "
-                               + "INNER JOIN sport_offering ON (sport.sport_id = sport_offering.sport_id) "
-                               + "HERE school_id = $1",
+    const res = await db.query("SELECT sport.sport_id, sport.sport_name, sport.gender FROM sport "
+                               + "INNER JOIN sport_offering "
+                               + "ON (sport.sport_id = sport_offering.sport_id) "
+                               + "WHERE school_id = $1",
                                [schoolId]);
     return res.rows.map(row => makeSport(row));
 }
