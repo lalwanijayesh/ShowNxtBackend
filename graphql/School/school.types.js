@@ -16,7 +16,7 @@ const School = gql`
     name: String!
     location: String!
     openings: [CoachOpening!]! 
-    offerings: [Sport!]! 
+    offerings: [SportOffering!]! 
   }
 `;
 

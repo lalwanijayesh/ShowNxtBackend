@@ -29,6 +29,8 @@ const { Measurable } = require("./Measurable/measurable.types");
 const { measurableResolvers } = require("./Measurable/measurable.resolvers");
 const { PositionMeasurable } = require ("./PositionMeasurable/positionMeasurable.types");
 const { positionMeasurableResolvers } = require("./PositionMeasurable/positionMeasurable.resolvers");
+const { SportOffering } = require("./SportOffering/sportOffering.types");
+const { sportOfferingResolvers } = require("./SportOffering/sportOffering.resolvers");
 // Note that we must have at least one field (empty in this case)
 // In this set up, we extend the root Query type within individual classes,
 // which allows for more flexibility and compatibility. Read the docs for more info on this.
@@ -63,7 +65,7 @@ const resolvers = {
 
 const rootSchema = {
   typeDefs: [Query, Mutation, User, Athlete, Coach, School, Sport, Profile, ProfileMeasurable,
-             Video, Position, Application, CoachOpening, Evaluation, Measurable, PositionMeasurable],
+             Video, Position, Application, CoachOpening, Evaluation, Measurable, PositionMeasurable, SportOffering],
   resolvers: merge(
     resolvers,
     userResolvers,
@@ -80,6 +82,7 @@ const rootSchema = {
     evaluationResolvers,
     measurableResolvers,
     positionMeasurableResolvers,
+    sportOfferingResolvers
   ),
 };
 
