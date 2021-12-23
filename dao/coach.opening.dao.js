@@ -11,12 +11,11 @@ const createCoachOpening = async (
     opening_count
 ) => {
     var res = await db.query(
-        "INSERT INTO coach_opening "
-        + "(coach_id, position_id, opening_count) "
-        + "VALUES ($1, $2, $3) "
-        + "ON CONFLICT (coach_id, position_id) "
-        + "DO UPDATE SET opening_count = $3 "
-        + "RETURNING coach_id, position_id",
+        `INSERT INTO coach_opening (coach_id, position_id, opening_count) 
+               VALUES ($1, $2, $3) 
+               ON CONFLICT (coach_id, position_id) 
+               DO UPDATE SET opening_count = $3 
+                   RETURNING coach_id, position_id`,
         [coach_id, position_id, opening_count]
     );
     // TODO use SQL builders above instead of passing args with $
@@ -39,8 +38,8 @@ const createCoachOpenings = async (
 
 const getCoachOpeningById = async (coach_id, position_id) => {
     var res = await db.query(
-        "SELECT coach_id, position_id, opening_count FROM coach_opening "
-        + "WHERE coach_id = $1 AND position_id = $2",
+        `SELECT coach_id, position_id, opening_count FROM coach_opening 
+               WHERE coach_id = $1 AND position_id = $2`,
         [coach_id, position_id]
     )
     return makeCoachOpening(res.rows[0]);
@@ -49,8 +48,7 @@ const getCoachOpeningById = async (coach_id, position_id) => {
 // Selects all of a coach's position openings
 const getCoachOpeningByCoach = async (coach_id) => {
     var res = await db.query(
-        "SELECT coach_id, position_id, opening_count FROM coach_opening "
-        + "WHERE coach_id = $1",
+        `SELECT coach_id, position_id, opening_count FROM coach_opening WHERE coach_id = $1`,
         [coach_id]
     )
     return res.rows.map(row => makeCoachOpening(row));
@@ -59,12 +57,10 @@ const getCoachOpeningByCoach = async (coach_id) => {
 // Selects all the unique open positions at a school
 const getCoachOpeningBySchool = async (school_id) => {
     var res = await db.query(
-        "SELECT DISTINCT ON (position_id) "
-        + "coach_id, position_id, opening_count "
-        + "FROM coach_opening "
-        + "INNER JOIN coach "
-        + "ON (coach_opening.coach_id = coach.user_id) "
-        + "WHERE school_id = $1",
+        `SELECT DISTINCT ON (position_id) coach_id, position_id, 
+    opening_count FROM coach_opening 
+    INNER JOIN coach ON (coach_opening.coach_id = coach.user_id) 
+    WHERE school_id = $1`,
         [school_id]
     );
     return res.rows.map(row => makeCoachOpening(row));
