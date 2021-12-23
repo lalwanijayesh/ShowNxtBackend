@@ -12,7 +12,8 @@ const createCoach = async (userId, schoolId, sportId, firstName, lastName) => {
 };
 
 const getCoachById = async (userId) => {
-    const res = await db.query("SELECT * FROM coach WHERE user_id = $1", [
+    const res = await db.query("SELECT user_id, school_id, sport_id, first_name, last_name "
+                               + "FROM coach WHERE user_id = $1", [
         userId,
     ]);
     return new Coach(res.rows[0].user_id,
@@ -22,20 +23,8 @@ const getCoachById = async (userId) => {
                      res.rows[0].last_name);
 }
 
-const getCoaches = async () => {
-    const res = await db.query("SELECT * FROM coach");
-    return res.rows.map(
-        row => new Coach(
-            row.user_id,
-            row.school_id,
-            row.sport_id,
-            row.first_name,
-            row.last_name
-    ));
-};
 
 module.exports = {
     createCoach,
     getCoachById,
-    getCoaches
 };

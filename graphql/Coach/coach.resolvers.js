@@ -6,9 +6,6 @@ const {getNextApplicationByCoach} = require("../../dao/application.dao");
 
 const coachResolvers = {
   Query: {
-    coaches: () => {
-      return getCoaches();
-    },
     coach: (parent, args, context, info) => {
       return getCoachById((userId = args.userId));
     },

@@ -1,11 +1,7 @@
-const Athlete = require("../../model/Athlete");
-const { getAthletes, getAthleteById, createAthlete } = require("../../dao/athlete.dao");
+const { getAthleteById, createAthlete } = require("../../dao/athlete.dao");
 
 const athleteResolvers = {
   Query: {
-    athletes: () => {
-      return getAthletes().then();
-    },
     athlete: (parent, args, context, info) => {
       return getAthleteById((user_id = args.user_id)).then();
     },

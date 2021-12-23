@@ -23,7 +23,8 @@ const createAthlete = async (
   weight
 ) => {
   await db.query(
-    "INSERT INTO athlete (user_id, first_name, last_name, gender, gpa, sat, act, height, weight) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+    "INSERT INTO athlete (user_id, first_name, last_name, gender, gpa, sat, act, height, weight) "
+    + "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
     [user_id, first_name, last_name, gender, gpa, sat, act, height, weight]
   );
   // TODO use SQL builders above instead of passing args with $
@@ -39,14 +40,8 @@ const getAthleteById = async (user_id) => {
   return makeAthlete(res.rows[0]);
 };
 
-const getAthletes = async () => {
-  const res = await db.query("SELECT * FROM athlete");
-  return res.rows.map(row => makeAthlete(row));
-};
 
 module.exports = {
   createAthlete,
   getAthleteById,
-  getAthletes,
-  newAthlete: makeAthlete
 };
