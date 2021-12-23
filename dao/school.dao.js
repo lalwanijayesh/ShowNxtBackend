@@ -6,14 +6,16 @@ const makeSchool = async (row) => {
 }
 
 const getSchoolById = async (schoolId) => {
-  const res = await db.query("SELECT school_id, school_name, school_location FROM school "
+  const res = await db.query("SELECT school_id, school_name, school_location "
+                             + "FROM school "
                              + "WHERE school.school_id = $1",
                              [schoolId]);
   return makeSchool(res.rows[0]);
 };
 
 const getSchools = async () => {
-  const res = await db.query("SELECT school_id, school_name, school_location FROM school");
+  const res = await db.query("SELECT school_id, school_name, school_location "
+                             + "FROM school");
   return res.rows.map(row => makeSchool(row));
 };
 

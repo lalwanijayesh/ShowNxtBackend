@@ -60,8 +60,10 @@ const getCoachOpeningByCoach = async (coach_id) => {
 const getCoachOpeningBySchool = async (school_id) => {
     var res = await db.query(
         "SELECT DISTINCT ON (position_id) "
-        + "coach_id, position_id, opening_count FROM coach_opening "
-        + "INNER JOIN coach ON (coach_opening.coach_id = coach.user_id) "
+        + "coach_id, position_id, opening_count "
+        + "FROM coach_opening "
+        + "INNER JOIN coach "
+        + "ON (coach_opening.coach_id = coach.user_id) "
         + "WHERE school_id = $1",
         [school_id]
     );
