@@ -4,7 +4,6 @@ const {newApplication} = require("../dao/application.dao");
 
 
 const makeEvaluation = async (application_id, coach_id, status) => {
-    console.log("make eval");
     var res = await db.query("INSERT INTO evaluation (application_id, coach_id, status) "
                              + "VALUES ($1, $2, $3) ON CONFLICT (application_id, coach_id) "
                              + "DO UPDATE SET status = $3 RETURNING application_id, coach_id",
