@@ -21,10 +21,10 @@ const schoolResolvers = {
   },
   School: {
     async openings(parent) {
-      return await getCoachOpeningBySchool(parent.schoolId).then();
+      return await getCoachOpeningBySchool(parent.schoolId);
     },
     async offerings(parent) {
-      return await getSportsBySchool(parent.schoolId).then();
+      return await getSportsBySchool(parent.schoolId);
     }
   }
 };
