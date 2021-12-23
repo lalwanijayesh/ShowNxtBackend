@@ -18,11 +18,6 @@ const getApplicationById = async (application_id) => {
     return makeApplication(res.rows[0]);
 }
 
-const getApplications = async() => {
-    var res = await db.query("SELECT application_id, profile_id, school_id, position_id FROM application");
-    return res.rows.map(row => makeApplication(row));
-}
-
 const getNextApplicationByCoach = async (coachId) => {
     var res = await db.query("SELECT application_id, profile_id, school_id, position_id FROM application " +
                              "WHERE application_id = (SELECT MIN(application.application_id) FROM application " +
@@ -42,7 +37,6 @@ const getApplicationByProfile = async (profileId) => {
 
 module.exports = {
     createApplication,
-    getApplications,
     getApplicationById,
     getNextApplicationByCoach,
     getApplicationByProfile,

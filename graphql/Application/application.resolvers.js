@@ -1,6 +1,5 @@
 const {
     createApplication,
-    getApplications,
     getApplicationById,
     getApplicationByProfile
 } = require("../../dao/application.dao");
@@ -9,9 +8,6 @@ const {getProfileById} = require("../../dao/profile.dao");
 const applicationResolvers = {
 
     Query: {
-        applications: () => {
-            return getApplications();
-        },
         application: (parent, args, context, info) => {
             return getApplicationById((userId = args.appId));
         },
