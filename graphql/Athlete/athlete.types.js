@@ -13,7 +13,6 @@ const Athlete = gql`
 
   # Extends the top-level root Query object with specific queries
   extend type Query {
-    athletes: [Athlete!]!
     athlete(user_id: ID!): Athlete
   }
 

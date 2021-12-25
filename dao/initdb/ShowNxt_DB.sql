@@ -28,7 +28,7 @@ CREATE TABLE athlete (
 
 CREATE TABLE school (
 	school_id SERIAL PRIMARY KEY,
-  	school_name VARCHAR(64) NOT NULL, 
+  	school_name VARCHAR(64) NOT NULL,
   	school_location VARCHAR(64) NOT NULL,
 	division division_type NOT NULL,
 	min_gpa NUMERIC(3,2),

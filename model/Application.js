@@ -1,5 +1,12 @@
 
 class Application {
+    get profileId() {
+        return this._profileId;
+    }
+
+    set profileId(value) {
+        this._profileId = value;
+    }
     get applicationId() {
         return this._applicationId;
     }
@@ -9,23 +16,17 @@ class Application {
     }
     constructor(
         applicationId,
-        profile,
+        profileId,
         schoolId,
         positionId
     ) {
-        this._profile = profile;
+        this._profileId = profileId;
         this._schoolId = schoolId;
         this._positionId = positionId;
         this._applicationId = applicationId;
     }
 
-    get profile() {
-        return this._profile;
-    }
 
-    set profile(value) {
-        this._profile = value;
-    }
 
     get schoolId() {
         return this._schoolId;

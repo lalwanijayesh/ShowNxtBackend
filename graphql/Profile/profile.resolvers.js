@@ -1,17 +1,17 @@
 const { getProfiles, getProfileById, getProfilesByAthlete, createProfile,
     getProfileWithMeasurable
 } = require("../../dao/profile.dao");
-const { createProfileMeasurables } = require("../../dao/profile.measurable.dao");
+const { createProfileMeasurables,
+    getProfileMeasurablesByProfile
+} = require("../../dao/profile.measurable.dao");
 const { startTransaction, endTransaction } = require("../../dao/transaction.dao");
-const { createProfileVideos } = require("../../dao/profile.video.dao");
+const { createProfileVideos, getProfileVideos} = require("../../dao/profile.video.dao");
+const {getAthleteById} = require("../../dao/athlete.dao");
 
 
 const profileResolvers = {
     Query: {
-        profiles: () => {
-            return getProfiles();
-        },
-        profilesAthlete: (parent, args, context, info) => {
+        athleteProfiles: (parent, args, context, info) => {
             return getProfilesByAthlete((user_id = args.user_id)).then();
         },
         profile: (parent, args, context, info) => {
@@ -34,6 +34,17 @@ const profileResolvers = {
             return profile;
             },
     },
+    Profile: {
+        athlete(parent){
+            return getAthleteById(parent.userId);
+        },
+        measurables(parent){
+            return getProfileMeasurablesByProfile(parent.profileId);
+        },
+        videos(parent) {
+            return getProfileVideos(parent.profileId);
+        }
+    }
 };
 
 module.exports = { profileResolvers };

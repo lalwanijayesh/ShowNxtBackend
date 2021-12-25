@@ -6,9 +6,7 @@ const { gql } = require("apollo-server");
 const Coach = gql`
   # Extends the top-level root Query object with specific queries
   extend type Query {
-    coaches: [Coach!]
     coach(userId: ID!): Coach
-    coachWithOpenPositions(userId: ID!): Coach
   }
 
   extend type Mutation {
@@ -21,6 +19,14 @@ const Coach = gql`
       openPositionIds: [ID!] 
       openPositionValues: [Int!] 
     ): Coach
+    acceptApplication(
+        applicationId: ID! 
+        userId: ID! 
+    ): Evaluation 
+    rejectApplication(
+        applicationId: ID! 
+        userId: ID! 
+    ): Evaluation 
   }
 
   type Coach {
@@ -29,7 +35,10 @@ const Coach = gql`
     sportId: ID
     firstName: String
     lastName: String
-    openPositions: [CoachOpening!] 
+    openPositions: [CoachOpening!]!
+    acceptedEvaluations: [Evaluation!]!
+    dismissedEvaluations: [Evaluation!]! 
+    nextApplication: Application! 
   }
 `;
 

@@ -1,15 +1,13 @@
 const {gql} = require("apollo-server");
 const Evaluation = gql`
   enum EvalStatus {
-    dismissed
-    accepted
+    DISMISS
+    ACCEPT 
   }
   
   # Extends the top-level root Query object with specific queries
   extend type Query {
-    evaluations: [Evaluation!]!
-    evaluationsByCoach(coachId: ID!): [Evaluation!]
-    evaluation(applicationId: ID!, coachId: ID!): Evaluation
+    evaluation(applicationId: ID!, coachId: ID!): Evaluation!
   }
 
   extend type Mutation {
@@ -17,11 +15,11 @@ const Evaluation = gql`
       applicationId: ID!
       coachId: ID! 
       status: EvalStatus!
-    ): Evaluation
+    ): Evaluation!
   }
 
   type Evaluation {
-     application: Application
+     application: Application!
      coachId: ID!
      status: EvalStatus!
   }

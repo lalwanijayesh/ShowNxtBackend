@@ -13,17 +13,17 @@ class Evaluation{
     set coachId(value) {
         this._coachId = value;
     }
-    get application() {
-        return this._application;
+    get applicationId() {
+        return this._applicationId;
     }
 
-    set application(value) {
-        this._application = value;
+    set applicationId(value) {
+        this._applicationId = value;
     }
     constructor(application,
                 coachId,
                 status) {
-        this._application = application;
+        this._applicationId = application;
         this._coachId = coachId;
         this._status = status;
     }
