@@ -1,7 +1,7 @@
 const { db } = require("./database");
 const School = require("../model/School");
 
-const makeSchool = async (row) => {
+const makeSchool = (row) => {
     return new School(row.school_id, row.school_name, row.school_location);
 }
 
