@@ -20,7 +20,7 @@ const createProfile = async (
 
 const getProfilesByAthlete = async (userId) => {
     const res = await db.query(
-        `SELECT profile_id, user_id, position_id FROM profile 
+        `SELECT profile_id, profile.user_id, position_id FROM profile 
                 INNER JOIN athlete ON (profile.user_id = athlete.user_id) 
                 WHERE profile.user_id = $1;`, [
         userId,

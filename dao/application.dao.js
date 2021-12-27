@@ -26,11 +26,15 @@ const getNextApplicationByCoach = async (coachId) => {
                 FROM application 
                 WHERE application_id = (SELECT MIN(application.application_id) FROM application 
                     INNER JOIN coach_opening ON application.position_id = coach_opening.position_id 
-                    INNER JOIN coach ON coach_opening.coach_id = coach.user_id 
+                    INNER JOIN coach ON coach_opening.coach_id = coach.user_id
+                    AND coach.school_id = application.school_id
                     LEFT OUTER JOIN evaluation ON application.application_id = evaluation.application_id 
                 WHERE evaluation.application_id IS NULL AND coach.user_id = $1)`,
                              [coachId]);
-    return makeApplication(res.rows[0]);
+    if (res.rows.length > 0)
+        return makeApplication(res.rows[0]);
+    else
+        return null;
 }
 
 const getApplicationByProfile = async (profileId) => {

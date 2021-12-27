@@ -38,7 +38,7 @@ const Coach = gql`
     openPositions: [CoachOpening!]!
     acceptedEvaluations: [Evaluation!]!
     dismissedEvaluations: [Evaluation!]! 
-    nextApplication: Application! 
+    nextApplication: Application
   }
 `;
 
