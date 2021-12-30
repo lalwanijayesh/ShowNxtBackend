@@ -30,8 +30,7 @@ The backend code additionally contains testing setup using a mock database. This
 
 ## How to run
 
-- Install Node.js ([https://nodejs.org/en/](https://nodejs.org/en/)). Recommended is Version 14 LTS.
-- Assuming you have already installed Node.js and Git, as part of Frontend setup, we can skip to next step. If not, refer to the steps in beginning of environment setup.
+- Install Node.js ([https://nodejs.org/en/](https://nodejs.org/en/)). Recommended is Version 14 LTS. Assuming you have already installed Git, we can move to the next step.
 - Clone the [ShowNxtBackend](https://github.com/lalwanijayesh/ShowNxtBackend) repository from GitHub using the following command. Alternatively, you can unzip the compressed zip file containing backend source code.
 
 ```bash
@@ -51,21 +50,13 @@ APP_PORT=3000
 ENV_TYPE=DEV
 ```
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/90c9b910-b8f5-4fd8-ab95-8705c3358b5f/Untitled.png)
-
 - Run the app using the following terminal command in the project directory.
 
 ```bash
 node index.js
 ```
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e74597f9-d77f-4c8e-81a1-15b3731c7e8e/Untitled.png)
-
-- Verify working by visiting [http://localhost:3000/](http://localhost:3000/) on your browser. It should bring up the following interface for interacting with your GraphQL API.
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f7c8e90b-24fc-4031-86f2-3b7d857ec6e3/Untitled.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f963535b-2208-4383-88e4-0238a71c35de/Untitled.png)
+- Verify working by visiting [http://localhost:3000/](http://localhost:3000/) on your browser. It should bring up the Apollo interface for interacting with your GraphQL API.
 
 - Run all the SQL scripts present in *ShowNxt_DB.sql* file to create all the required database tables. Also execute the *test_data.sql* file to insert the dummy data into those tables.
-- You are now all set to explore and iterate on the ShowNxt app, backend and the database.
+- You are now all set to interact with the API server on the configured host/port.
